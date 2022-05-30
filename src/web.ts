@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { WebPlugin } from '@capacitor/core';
 
 import type { CapacitorAxaMobileSdkPlugin } from './definitions';

@@ -26,14 +26,15 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
      * If an empty string is passed, the customer iD is reset.
      *
      */
-    @objc func setCustomerId(_ call: CAPPluginCall) -> SDKError {
-        guard let customerId = call.getString("customerId") else {
-          call.reject("Must provide an Customer Id")
-            return SDKError.ErrorInvalidValuesPassed
+    @objc func setCustomerId(_ call: CAPPluginCall) {
+        guard let customerId = call.getString("customerId"), !customerId.isEmpty else {
+            call.reject("Customer Id is nil")
+            return
         }
         let error: SDKError = CAMDOReporter.setCustomerId(customerId)
-        //call.resolve(@(error))
-        return error
+        call.resolve([
+            "error": error
+        ])
     }
 
     /**

@@ -16,7 +16,40 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
         ])
     }
 
-
+    /**
+     * This function is internal and only for passing NSError * items to JS as a string
+     */
+    func CAMAAErrorString(error: NSError) -> String {
+        if (error != nil) {
+            return String(format: "%@: %ld %@", error.domain, error.code, error.userInfo["NSLocalizedDescription"] as! CVarArg)
+        }
+        return String()
+    }
+    
+    @objc func disableSDK(_ call: CAPPluginCall) {
+        CAMDOReporter.disableSDK()
+        call.resolve()
+    }
+    
+    @objc func enableSDK(_ call: CAPPluginCall) {
+        CAMDOReporter.enableSDK()
+        call.resolve()
+    }
+    
+    @objc func isSDKEnabled(_ call: CAPPluginCall) {
+        let isEnabled = CAMDOReporter.isSDKEnabled()
+        call.resolve([
+            "Enabled": isEnabled
+        ])
+    }
+    
+    @objc func getDeviceId(_ call: CAPPluginCall) {
+        let deviceId = CAMDOReporter.deviceId()
+        call.resolve([
+            "deviceId": deviceId!
+        ])
+    }
+    
     /**
      * Use this API to set the customer ID for this session.
      *
@@ -26,6 +59,7 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
      * If an empty string is passed, the customer iD is reset.
      *
      */
+    
     @objc func setCustomerId(_ call: CAPPluginCall) {
         guard let customerId = call.getString("customerId"), !customerId.isEmpty else {
             call.reject("Customer Id is nil")
@@ -55,10 +89,10 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
      * @param callback is a function which expects a boolean value
      *
     */
-    @objc func isSDKEnabled(_ call: CAPPluginCall) -> Bool {
-        let response = CAMDOReporter.isSDKEnabled()
-        return response
-    }
+//    @objc func isSDKEnabled(_ call: CAPPluginCall) -> Bool {
+//        let response = CAMDOReporter.isSDKEnabled()
+//        return response
+//    }
     
 }
 

@@ -7,4 +7,8 @@ CAP_PLUGIN(CapacitorAxaMobileSdkPlugin, "CapacitorAxaMobileSdk",
            CAP_PLUGIN_METHOD(echo, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setCustomerId, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getCustomerId, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(disableSDK, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(enableSDK, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(isSDKEnabled, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getDeviceId, CAPPluginReturnPromise);
 )

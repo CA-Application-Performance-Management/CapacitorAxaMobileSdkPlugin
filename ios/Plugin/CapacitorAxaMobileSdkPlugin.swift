@@ -9,6 +9,22 @@ import Capacitor
 public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
     private let implementation = CapacitorAxaMobileSdk()
 
+    override public func load() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleCAMAAUploadEvent(notification:)), name: NSNotification.Name(rawValue:CAMAA_UPLOAD_INITIATED), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleCAMAACrashOccurredEvent(notification:)), name: NSNotification.Name(rawValue:CAMAA_CRASH_OCCURRED), object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc func handleCAMAAUploadEvent(notification: NSNotification) {
+        notifyListeners("CAMAA_UPLOAD_INITIATED", data: [:], retainUntilConsumed: true)
+    }
+    @objc func handleCAMAACrashOccurredEvent(notification: NSNotification) {
+        notifyListeners("CAMAA_CRASH_OCCURRED", data: [:], retainUntilConsumed: true)
+    }
+    
     @objc func echo(_ call: CAPPluginCall) {
         let value = call.getString("value") ?? ""
         call.resolve([
@@ -23,13 +39,13 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
         return String(format: "%@: %ld %@", error.domain, error.code, error.userInfo["NSLocalizedDescription"] as! CVarArg)
     }
     
-    @objc func disableSDK(_ call: CAPPluginCall) {
-        CAMDOReporter.disableSDK()
+    @objc func enableSDK(_ call: CAPPluginCall) {
+        CAMDOReporter.enableSDK()
         call.resolve()
     }
     
-    @objc func enableSDK(_ call: CAPPluginCall) {
-        CAMDOReporter.enableSDK()
+    @objc func disableSDK(_ call: CAPPluginCall) {
+        CAMDOReporter.disableSDK()
         call.resolve()
     }
     
@@ -266,20 +282,40 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
         }
     }
     
+    @objc func enableScreenShots(_ call: CAPPluginCall) {
+        let captureScreen = call.getBool("captureScreen")
+        CAMDOReporter.enableScreenShots(captureScreen!)
+        call.resolve()
+    }
+    
     @objc func viewLoaded(_ call: CAPPluginCall) {
         guard let viewName = call.getString("viewName"), let loadTime = call.getFloat("loadTime") else {
             call.reject("No viewName or loadTime")
             return
         }
-        CAMDOReporter.viewLoaded(viewName, loadTime: CGFloat(loadTime)) { completed, error in
-            var errorStr: String? = nil
-            if error != nil {
-                errorStr = self.CAMAAErrorString(error: error! as NSError)
+        let failure = call.getBool("screenShot")
+        if failure != nil {
+            CAMDOReporter.viewLoaded(viewName, loadTime: CGFloat(loadTime), screenShot: failure!) { completed, error in
+                var errorStr: String? = nil
+                if error != nil {
+                    errorStr = self.CAMAAErrorString(error: error! as NSError)
+                }
+                call.resolve([
+                    "completed": completed,
+                    "error": errorStr as Any
+                ])
             }
-            call.resolve([
-                "completed": completed,
-                "error": errorStr as Any
-            ])
+        } else {
+            CAMDOReporter.viewLoaded(viewName, loadTime: CGFloat(loadTime)) { completed, error in
+                var errorStr: String? = nil
+                if error != nil {
+                    errorStr = self.CAMAAErrorString(error: error! as NSError)
+                }
+                call.resolve([
+                    "completed": completed,
+                    "error": errorStr as Any
+                ])
+            }
         }
     }
     
@@ -375,11 +411,33 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
                     errorStr = self.CAMAAErrorString(error: error! as NSError)
                 }
                 call.resolve([
-                    "response": response!,
+                    "response": response as Any,
                     "error": errorStr as Any
                 ])
             }
         }
+    }
+    
+    @objc func setLocation(_ call: CAPPluginCall) {
+        guard let latitude = call.getDouble("latitude"), let longitude = call.getDouble("longitude") else {
+            call.resolve([
+                "error": "No latitude or longitude"
+            ])
+            return
+        }
+        CAMDOReporter.setCustomerLocation(CLLocation(latitude: latitude, longitude: longitude))
+        call.resolve()
+    }
+    
+    @objc func logUIEvent(_ call: CAPPluginCall) {
+        guard let eventType = call.getString("eventType"), !eventType.isEmpty, let value = call.getString("value") else {
+            call.resolve([
+                "error": "No event type or value"
+            ])
+            return
+        }
+        CAMDOReporter.logUIEvent(eventType, withValue: value)
+        call.resolve()
     }
 }
 

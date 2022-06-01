@@ -14,8 +14,10 @@ npx cap sync
 <docgen-index>
 
 * [`echo(...)`](#echo)
-* [`disableSDK()`](#disablesdk)
+* [`addListener('CAMAA_UPLOAD_INITIATED', ...)`](#addlistenercamaa_upload_initiated)
+* [`addListener('CAMAA_CRASH_OCCURRED', ...)`](#addlistenercamaa_crash_occurred)
 * [`enableSDK()`](#enablesdk)
+* [`disableSDK()`](#disablesdk)
 * [`isSDKEnabled()`](#issdkenabled)
 * [`getDeviceId()`](#getdeviceid)
 * [`getCustomerId()`](#getcustomerid)
@@ -35,6 +37,7 @@ npx cap sync
 * [`setCustomerFeedback(...)`](#setcustomerfeedback)
 * [`setCustomerLocation(...)`](#setcustomerlocation)
 * [`sendScreenShot(...)`](#sendscreenshot)
+* [`enableScreenShots(...)`](#enablescreenshots)
 * [`viewLoaded(...)`](#viewloaded)
 * [`ignoreView(...)`](#ignoreview)
 * [`ignoreViews(...)`](#ignoreviews)
@@ -45,8 +48,6 @@ npx cap sync
 * [`uploadEvents()`](#uploadevents)
 * [`setNSURLSessionDelegate(...)`](#setnsurlsessiondelegate)
 * [`setLocation(...)`](#setlocation)
-* [`enableScreenShots(...)`](#enablescreenshots)
-* [`viewLoadedWithoutScreenCapture(...)`](#viewloadedwithoutscreencapture)
 * [`logUIEvent(...)`](#loguievent)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -72,15 +73,34 @@ echo(options: { value: string; }) => Promise<{ value: string; }>
 --------------------
 
 
-### disableSDK()
+### addListener('CAMAA_UPLOAD_INITIATED', ...)
 
 ```typescript
-disableSDK() => void
+addListener(eventName: 'CAMAA_UPLOAD_INITIATED', listenerFunc: () => void) => Promise<PluginListenerHandle> & PluginListenerHandle
 ```
 
-Use this API to disable the SDK.
-When disabled, the SDK no longer does any tracking of the application,
-or user interaction.
+| Param              | Type                                  |
+| ------------------ | ------------------------------------- |
+| **`eventName`**    | <code>'CAMAA_UPLOAD_INITIATED'</code> |
+| **`listenerFunc`** | <code>() =&gt; void</code>            |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+--------------------
+
+
+### addListener('CAMAA_CRASH_OCCURRED', ...)
+
+```typescript
+addListener(eventName: 'CAMAA_CRASH_OCCURRED', listenerFunc: () => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+| Param              | Type                                |
+| ------------------ | ----------------------------------- |
+| **`eventName`**    | <code>'CAMAA_CRASH_OCCURRED'</code> |
+| **`listenerFunc`** | <code>() =&gt; void</code>          |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
 
 --------------------
 
@@ -94,6 +114,19 @@ enableSDK() => void
 Use this API to enable SDK.
 The SDK is enabled by default. You need to call this API
 only if you called disableSDK earlier.
+
+--------------------
+
+
+### disableSDK()
+
+```typescript
+disableSDK() => void
+```
+
+Use this API to disable the SDK.
+When disabled, the SDK no longer does any tracking of the application,
+or user interaction.
 
 --------------------
 
@@ -382,17 +415,32 @@ Use this API to send a screen shot of the current screen
 --------------------
 
 
+### enableScreenShots(...)
+
+```typescript
+enableScreenShots(captureScreen: boolean) => void
+```
+
+Use this API to programmatically enable or disable automatic screen captures.
+
+| Param               | Type                 | Description                                                                                                                                                                                                               |
+| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`captureScreen`** | <code>boolean</code> | is a boolean value to enable/disable automatic screen captures. Normally the policy determines whether automatic screen captures are performed. Use this API to override the policy, or the current setting of this flag. |
+
+--------------------
+
+
 ### viewLoaded(...)
 
 ```typescript
-viewLoaded(options: { viewName: string; loadTime: number; }) => Promise<CAMDOSDKCallback>
+viewLoaded(options: { viewName: string; loadTime: number; screenShot?: boolean; }) => Promise<CAMDOSDKCallback>
 ```
 
 Use this API to create a custom app flow with dynamic views
 
-| Param         | Type                                                 |
-| ------------- | ---------------------------------------------------- |
-| **`options`** | <code>{ viewName: string; loadTime: number; }</code> |
+| Param         | Type                                                                       |
+| ------------- | -------------------------------------------------------------------------- |
+| **`options`** | <code>{ viewName: string; loadTime: number; screenShot?: boolean; }</code> |
 
 **Returns:** <code>Promise&lt;<a href="#camdosdkcallback">CAMDOSDKCallback</a>&gt;</code>
 
@@ -541,45 +589,6 @@ Use this API to set Geographic or GPS Location of the Customer
 --------------------
 
 
-### enableScreenShots(...)
-
-```typescript
-enableScreenShots(captureScreen: boolean) => void
-```
-
-Use this API to programmatically enable or disable automatic screen captures.
-
-| Param               | Type                 | Description                                                                                                                                                                                                               |
-| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`captureScreen`** | <code>boolean</code> | is a boolean value to enable/disable automatic screen captures. Normally the policy determines whether automatic screen captures are performed. Use this API to override the policy, or the current setting of this flag. |
-
---------------------
-
-
-### viewLoadedWithoutScreenCapture(...)
-
-```typescript
-viewLoadedWithoutScreenCapture(options: { viewName: string; loadTime: number; }) => Promise<CAMDOSDKCallback>
-```
-
-Use this API to create a custom app flow with dynamic views
-
-During a loadView call, on iOS only, screen captures are controlled
-by policy, or the setting of the enableScreenShots API call.
-The iOS SDK allows the calling API to disable automatic screen
-captures if they are currently enabled.
-This API call prevents any screen capture during the loadView call
-by overriding policy for this invocation.
-
-| Param         | Type                                                 |
-| ------------- | ---------------------------------------------------- |
-| **`options`** | <code>{ viewName: string; loadTime: number; }</code> |
-
-**Returns:** <code>Promise&lt;<a href="#camdosdkcallback">CAMDOSDKCallback</a>&gt;</code>
-
---------------------
-
-
 ### logUIEvent(...)
 
 ```typescript
@@ -594,6 +603,13 @@ logUIEvent(options: { eventType: string; value: string; }) => void
 
 
 ### Interfaces
+
+
+#### PluginListenerHandle
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
 
 #### CAMDOIsSDKEnabledResult

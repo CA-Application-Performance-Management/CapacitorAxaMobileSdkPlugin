@@ -1,18 +1,11 @@
-// export type callback = (message: String | null, err?: any) => void;
+import type { PluginListenerHandle } from '@capacitor/core';
 
 export interface CapacitorAxaMobileSdkPlugin {
 
   echo(options: { value: string }): Promise<{ value: string }>;
 
-
-  /**
-   * Use this API to disable the SDK.
-   * When disabled, the SDK no longer does any tracking of the application,
-   * or user interaction.
-   *
-   */
-   disableSDK(): void;
-
+  addListener(eventName: 'CAMAA_UPLOAD_INITIATED', listenerFunc: () => void): Promise<PluginListenerHandle> & PluginListenerHandle;
+  addListener(eventName: 'CAMAA_CRASH_OCCURRED', listenerFunc: () => void): Promise<PluginListenerHandle> & PluginListenerHandle;
 
   /**
    * Use this API to enable SDK.
@@ -22,6 +15,13 @@ export interface CapacitorAxaMobileSdkPlugin {
    */
    enableSDK(): void;
 
+  /**
+   * Use this API to disable the SDK.
+   * When disabled, the SDK no longer does any tracking of the application,
+   * or user interaction.
+   *
+   */
+   disableSDK(): void;
 
   /**
    * Use this API to determine if the SDK is enabled or not.
@@ -234,6 +234,16 @@ export interface CapacitorAxaMobileSdkPlugin {
    */
    sendScreenShot(options: {name: string, quality: CAMDOSDKImageQualityType}): Promise<CAMDOSDKCallback>;
 
+  /**
+   * Use this API to programmatically enable or disable automatic screen captures.
+   *
+   * @param captureScreen is a boolean value to enable/disable automatic screen captures.
+   *
+   * Normally the policy determines whether automatic screen captures are performed.
+   * Use this API to override the policy, or the current setting of this flag.
+   *
+   */
+   enableScreenShots(captureScreen: boolean): void;
   
   /**
    * Use this API to create a custom app flow with dynamic views
@@ -247,7 +257,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * domain, code and localizedDescription.
    *
    */
-   viewLoaded(options: {viewName: string, loadTime: number}): Promise<CAMDOSDKCallback>; 
+   viewLoaded(options: {viewName: string, loadTime: number, screenShot?: boolean}): Promise<CAMDOSDKCallback>; 
 
 
   /**
@@ -363,41 +373,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    *
    */
    setLocation(options: {latitude: number, longitude: number}): void;
-
-
-  /**
-   * Use this API to programmatically enable or disable automatic screen captures.
-   *
-   * @param captureScreen is a boolean value to enable/disable automatic screen captures.
-   *
-   * Normally the policy determines whether automatic screen captures are performed.
-   * Use this API to override the policy, or the current setting of this flag.
-   *
-   */
-   enableScreenShots(captureScreen: boolean): void;
-    
-
-  /**
-   * Use this API to create a custom app flow with dynamic views
-   *
-   * During a loadView call, on iOS only, screen captures are controlled
-   * by policy, or the setting of the enableScreenShots API call.
-   * The iOS SDK allows the calling API to disable automatic screen
-   * captures if they are currently enabled.
-   * This API call prevents any screen capture during the loadView call
-   * by overriding policy for this invocation.
-   *
-   * @param viewName is the name of the view that was loaded
-   * @param loadTime is the time it took to load the view
-   * Returns a CAMDOSDKCallback
-   * 
-   * If successful, completed = YES and error is nil.
-   * In case of failure, completed = NO and error will have NSError object with
-   * domain, code and localizedDescription.
-   *
-   */
-   viewLoadedWithoutScreenCapture(options:{viewName: string, loadTime: number}): Promise<CAMDOSDKCallback>;
-
+  
 
    logUIEvent(options: {eventType: string, value: string} ): void;
 

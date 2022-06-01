@@ -6,8 +6,8 @@
 CAP_PLUGIN(CapacitorAxaMobileSdkPlugin, "CapacitorAxaMobileSdk",
            CAP_PLUGIN_METHOD(echo, CAPPluginReturnPromise);
            
-           CAP_PLUGIN_METHOD(disableSDK, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(enableSDK, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(disableSDK, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(isSDKEnabled, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getDeviceId, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getCustomerId, CAPPluginReturnPromise);
@@ -27,6 +27,7 @@ CAP_PLUGIN(CapacitorAxaMobileSdkPlugin, "CapacitorAxaMobileSdk",
            CAP_PLUGIN_METHOD(setCustomerFeedback, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setCustomerLocation, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendScreenShot, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(enableScreenShots, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(viewLoaded, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(ignoreView, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(ignoreViews, CAPPluginReturnPromise);
@@ -35,6 +36,6 @@ CAP_PLUGIN(CapacitorAxaMobileSdkPlugin, "CapacitorAxaMobileSdk",
            CAP_PLUGIN_METHOD(logTextMetric, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(logNumericMetric, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(uploadEvents, CAPPluginReturnPromise);
-
-
+           CAP_PLUGIN_METHOD(setLocation, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(logUIEvent, CAPPluginReturnPromise);
 )

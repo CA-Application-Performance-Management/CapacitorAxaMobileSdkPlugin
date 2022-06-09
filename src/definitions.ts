@@ -2,10 +2,8 @@ import type { PluginListenerHandle } from '@capacitor/core';
 
 export interface CapacitorAxaMobileSdkPlugin {
 
-  echo(options: { value: string }): Promise<{ value: string }>;
-
-  addListener(eventName: 'CAMAA_UPLOAD_INITIATED', listenerFunc: () => void): Promise<PluginListenerHandle> & PluginListenerHandle;
-  addListener(eventName: 'CAMAA_CRASH_OCCURRED', listenerFunc: () => void): Promise<PluginListenerHandle> & PluginListenerHandle;
+  addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, listenerFunc: () => void): Promise<PluginListenerHandle> & PluginListenerHandle;
+  addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, listenerFunc: () => void): Promise<PluginListenerHandle> & PluginListenerHandle;
 
   /**
    * Use this API to enable SDK.
@@ -375,7 +373,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    setLocation(options: {latitude: number, longitude: number}): void;
   
 
-   logUIEvent(options: {eventType: string, value: string} ): void;
+   logUIEvent(options: {eventType: CAMDOUIEventType, value: string} ): void;
 
 }
 
@@ -436,9 +434,24 @@ export interface CAMDOAPMHeaderResult {
   value: object | null;
 }
 
-export type CAMDOSDKImageQualityType =
-| 'CAMAA_SCREENSHOT_QUALITY_HIGH'
-| 'CAMAA_SCREENSHOT_QUALITY_MEDIUM'
-| 'CAMAA_SCREENSHOT_QUALITY_LOW'
-| 'CAMAA_SCREENSHOT_QUALITY_DEFAULT'
+export enum CAMDOSDKImageQualityType {
+  CAMAA_SCREENSHOT_QUALITY_HIGH = 'CAMAA_SCREENSHOT_QUALITY_HIGH',
+  CAMAA_SCREENSHOT_QUALITY_MEDIUM = 'CAMAA_SCREENSHOT_QUALITY_MEDIUM',
+  CAMAA_SCREENSHOT_QUALITY_LOW = 'CAMAA_SCREENSHOT_QUALITY_LOW',
+  CAMAA_SCREENSHOT_QUALITY_DEFAULT = 'CAMAA_SCREENSHOT_QUALITY_DEFAULT'
+}
 
+export enum CAMDOUIEventType {
+  CAMAA_EVENT_BUTTON_PRESSED = 'button_pressed',
+  CAMAA_EVENT_DATE_PICKER_VIEW_SELECTED = 'date_picker_selected',
+  CAMAA_EVENT_PAGE_CHANGED= 'page_changed',
+  CAMAA_EVENT_SEGMENTED_CONTROL_PRESSED = 'segment_control_pressed',
+  CAMAA_EVENT_SLIDER_MOVED = 'slider_moved',
+  CAMAA_EVENT_STEPPER_PRESSED = 'stepper_pressed',
+  CAMAA_EVENT_SWITCH_PRESSED = 'switch_pressed'
+}
+
+export enum CAMAA_NOTIFICATION_TYPE {
+  CAMAA_UPLOAD_INITIATED = 'CAMAA_UPLOAD_INITIATED',
+  CAMAA_CRASH_OCCURRED = 'CAMAA_CRASH_OCCURRED'
+}

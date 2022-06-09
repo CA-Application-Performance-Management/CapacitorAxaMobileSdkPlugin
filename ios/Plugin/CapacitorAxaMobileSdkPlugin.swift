@@ -7,11 +7,10 @@ import Capacitor
  */
 @objc(CapacitorAxaMobileSdkPlugin)
 public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
-    private let implementation = CapacitorAxaMobileSdk()
 
     override public func load() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.handleCAMAAUploadEvent(notification:)), name: NSNotification.Name(rawValue:CAMAA_UPLOAD_INITIATED), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.handleCAMAACrashOccurredEvent(notification:)), name: NSNotification.Name(rawValue:CAMAA_CRASH_OCCURRED), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleCAMAAUploadEvent(notification:)), name: NSNotification.Name(rawValue: CAMAA_UPLOAD_INITIATED), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleCAMAACrashOccurredEvent(notification:)), name: NSNotification.Name(rawValue: CAMAA_CRASH_OCCURRED), object: nil)
     }
     
     deinit {
@@ -24,13 +23,6 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
     @objc func handleCAMAACrashOccurredEvent(notification: NSNotification) {
         notifyListeners("CAMAA_CRASH_OCCURRED", data: [:], retainUntilConsumed: true)
     }
-    
-    @objc func echo(_ call: CAPPluginCall) {
-        let value = call.getString("value") ?? ""
-        call.resolve([
-            "value": implementation.echo(value)
-        ])
-    }
 
     /**
      * This function is internal and only for passing NSError * items to JS as a string
@@ -41,6 +33,7 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
     
     @objc func enableSDK(_ call: CAPPluginCall) {
         CAMDOReporter.enableSDK()
+        
         call.resolve()
     }
     

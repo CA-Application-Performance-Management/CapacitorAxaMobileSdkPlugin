@@ -13,9 +13,8 @@ npx cap sync
 
 <docgen-index>
 
-* [`echo(...)`](#echo)
-* [`addListener('CAMAA_UPLOAD_INITIATED', ...)`](#addlistenercamaa_upload_initiated)
-* [`addListener('CAMAA_CRASH_OCCURRED', ...)`](#addlistenercamaa_crash_occurred)
+* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, ...)`](#addlistenercamaa_notification_typecamaa_crash_occurred)
+* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, ...)`](#addlistenercamaa_notification_typecamaa_upload_initiated)
 * [`enableSDK()`](#enablesdk)
 * [`disableSDK()`](#disablesdk)
 * [`isSDKEnabled()`](#issdkenabled)
@@ -50,7 +49,6 @@ npx cap sync
 * [`setLocation(...)`](#setlocation)
 * [`logUIEvent(...)`](#loguievent)
 * [Interfaces](#interfaces)
-* [Type Aliases](#type-aliases)
 * [Enums](#enums)
 
 </docgen-index>
@@ -58,47 +56,32 @@ npx cap sync
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### echo(...)
+### addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, ...)
 
 ```typescript
-echo(options: { value: string; }) => Promise<{ value: string; }>
+addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, listenerFunc: () => void) => Promise<PluginListenerHandle> & PluginListenerHandle
 ```
 
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ value: string; }</code> |
-
-**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
-
---------------------
-
-
-### addListener('CAMAA_UPLOAD_INITIATED', ...)
-
-```typescript
-addListener(eventName: 'CAMAA_UPLOAD_INITIATED', listenerFunc: () => void) => Promise<PluginListenerHandle> & PluginListenerHandle
-```
-
-| Param              | Type                                  |
-| ------------------ | ------------------------------------- |
-| **`eventName`**    | <code>'CAMAA_UPLOAD_INITIATED'</code> |
-| **`listenerFunc`** | <code>() =&gt; void</code>            |
+| Param              | Type                                                                                             |
+| ------------------ | ------------------------------------------------------------------------------------------------ |
+| **`eventName`**    | <code><a href="#camaa_notification_type">CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED</a></code> |
+| **`listenerFunc`** | <code>() =&gt; void</code>                                                                       |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
 
 --------------------
 
 
-### addListener('CAMAA_CRASH_OCCURRED', ...)
+### addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, ...)
 
 ```typescript
-addListener(eventName: 'CAMAA_CRASH_OCCURRED', listenerFunc: () => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, listenerFunc: () => void) => Promise<PluginListenerHandle> & PluginListenerHandle
 ```
 
-| Param              | Type                                |
-| ------------------ | ----------------------------------- |
-| **`eventName`**    | <code>'CAMAA_CRASH_OCCURRED'</code> |
-| **`listenerFunc`** | <code>() =&gt; void</code>          |
+| Param              | Type                                                                                               |
+| ------------------ | -------------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code><a href="#camaa_notification_type">CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED</a></code> |
+| **`listenerFunc`** | <code>() =&gt; void</code>                                                                         |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
 
@@ -592,12 +575,12 @@ Use this API to set Geographic or GPS Location of the Customer
 ### logUIEvent(...)
 
 ```typescript
-logUIEvent(options: { eventType: string; value: string; }) => void
+logUIEvent(options: { eventType: CAMDOUIEventType; value: string; }) => void
 ```
 
-| Param         | Type                                               |
-| ------------- | -------------------------------------------------- |
-| **`options`** | <code>{ eventType: string; value: string; }</code> |
+| Param         | Type                                                                                         |
+| ------------- | -------------------------------------------------------------------------------------------- |
+| **`options`** | <code>{ eventType: <a href="#camdouieventtype">CAMDOUIEventType</a>; value: string; }</code> |
 
 --------------------
 
@@ -677,15 +660,15 @@ logUIEvent(options: { eventType: string; value: string; }) => void
 | **`error`**    | <code>string \| null</code> |
 
 
-### Type Aliases
-
-
-#### CAMDOSDKImageQualityType
-
-<code>'CAMAA_SCREENSHOT_QUALITY_HIGH' | 'CAMAA_SCREENSHOT_QUALITY_MEDIUM' | 'CAMAA_SCREENSHOT_QUALITY_LOW' | 'CAMAA_SCREENSHOT_QUALITY_DEFAULT'</code>
-
-
 ### Enums
+
+
+#### CAMAA_NOTIFICATION_TYPE
+
+| Members                      | Value                                 |
+| ---------------------------- | ------------------------------------- |
+| **`CAMAA_UPLOAD_INITIATED`** | <code>'CAMAA_UPLOAD_INITIATED'</code> |
+| **`CAMAA_CRASH_OCCURRED`**   | <code>'CAMAA_CRASH_OCCURRED'</code>   |
 
 
 #### SDKError
@@ -708,5 +691,28 @@ logUIEvent(options: { eventType: string; value: string; }) => void
 | **`CAMDOSSLPinningModeCertificate`**              |
 | **`CAMDOSSLPinningModeFingerPrintSHA1Signature`** |
 | **`CAMDOSSLPinningModePublicKeyHash`**            |
+
+
+#### CAMDOSDKImageQualityType
+
+| Members                                | Value                                           |
+| -------------------------------------- | ----------------------------------------------- |
+| **`CAMAA_SCREENSHOT_QUALITY_HIGH`**    | <code>'CAMAA_SCREENSHOT_QUALITY_HIGH'</code>    |
+| **`CAMAA_SCREENSHOT_QUALITY_MEDIUM`**  | <code>'CAMAA_SCREENSHOT_QUALITY_MEDIUM'</code>  |
+| **`CAMAA_SCREENSHOT_QUALITY_LOW`**     | <code>'CAMAA_SCREENSHOT_QUALITY_LOW'</code>     |
+| **`CAMAA_SCREENSHOT_QUALITY_DEFAULT`** | <code>'CAMAA_SCREENSHOT_QUALITY_DEFAULT'</code> |
+
+
+#### CAMDOUIEventType
+
+| Members                                     | Value                                  |
+| ------------------------------------------- | -------------------------------------- |
+| **`CAMAA_EVENT_BUTTON_PRESSED`**            | <code>'button_pressed'</code>          |
+| **`CAMAA_EVENT_DATE_PICKER_VIEW_SELECTED`** | <code>'date_picker_selected'</code>    |
+| **`CAMAA_EVENT_PAGE_CHANGED`**              | <code>'page_changed'</code>            |
+| **`CAMAA_EVENT_SEGMENTED_CONTROL_PRESSED`** | <code>'segment_control_pressed'</code> |
+| **`CAMAA_EVENT_SLIDER_MOVED`**              | <code>'slider_moved'</code>            |
+| **`CAMAA_EVENT_STEPPER_PRESSED`**           | <code>'stepper_pressed'</code>         |
+| **`CAMAA_EVENT_SWITCH_PRESSED`**            | <code>'switch_pressed'</code>          |
 
 </docgen-api>

@@ -1,6 +1,6 @@
 {
-  "name": "capacitor-axa-mobile-sdk-plugin",
-  "version": "0.0.1",
+  "name": "capacitor-axa-mobile-sdk-plugin-xcframework",
+  "version": "0.0.1-beta.1.0",
   "description": "CA App Experience Analytic native SDK's capacitor supplement for using custom metrics",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -11,16 +11,16 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorAxaMobileSdkPlugin.podspec"
+    "CapacitorAxaMobileSdkPluginXcframework.podspec"
   ],
   "author": "ca-apm",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CA-Application-Performance-Management/CapacitorAxaMobileSdkPlugin.git"
+    "url": "git+https://github.com/CA-Application-Performance-Management/CapacitorAxaMobileSdkPlugin/tree/xcframework.git"
   },
   "bugs": {
-    "url": "https://github.com/CA-Application-Performance-Management/CapacitorAxaMobileSdkPlugin/issues"
+    "url": "https://github.com/CA-Application-Performance-Management/CapacitorAxaMobileSdkPlugin/tree/xcframework/issues"
   },
   "keywords": [
     "capacitor",

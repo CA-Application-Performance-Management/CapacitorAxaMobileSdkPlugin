@@ -1,11 +1,11 @@
-# capacitor-axa-mobile-sdk-plugin
+# capacitor-axa-mobile-sdk-plugin-xcframework
 
 CA App Experience Analytic native SDK's capacitor supplement for using custom metrics
 
 ## Install
 
 ```bash
-npm install capacitor-axa-mobile-sdk-plugin
+npm install capacitor-axa-mobile-sdk-plugin-xcframework
 npx cap sync
 ```
 

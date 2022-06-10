@@ -1,4 +1,4 @@
-package com.ca.maasdk;
+package com.ca.maasdk.capacitor.xcframework;
 
 import android.util.Log;
 

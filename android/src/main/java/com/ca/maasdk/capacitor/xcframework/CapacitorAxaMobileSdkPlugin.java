@@ -1,4 +1,4 @@
-package com.ca.maasdk;
+package com.ca.maasdk.capacitor.xcframework;
 
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;

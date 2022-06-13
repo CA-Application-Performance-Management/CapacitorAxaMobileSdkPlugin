@@ -1,6 +1,7 @@
 {
   "name": "capacitor-axa-mobile-sdk-plugin",
-  "version": "0.0.1-beta.1.0",
+  "title": "Capacitor AXA Mobile Sdk",
+  "version": "0.0.1-beta.1.1",
   "description": "CA App Experience Analytic native SDK's capacitor supplement for using custom metrics",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -13,8 +14,13 @@
     "ios/Plugin/",
     "CapacitorAxaMobileSdkPlugin.podspec"
   ],
-  "author": "ca-apm",
+  "author": {
+    "name": "CA Mobile Team",
+    "email": "esd-aiops-apm-team-taurus.pdl@broadcom.com"
+  },
   "license": "MIT",
+  "licenseFilename": "LICENSE",
+  "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CA-Application-Performance-Management/CapacitorAxaMobileSdkPlugin.git"
@@ -22,10 +28,16 @@
   "bugs": {
     "url": "https://github.com/CA-Application-Performance-Management/CapacitorAxaMobileSdkPlugin/issues"
   },
+  "homepage": "https://techdocs.broadcom.com/content/broadcom/techdocs/us/en/ca-enterprise-software/it-operations-management/app-experience-analytics-saas/SaaS/configuring/collect-data-from-ios-applications.html",
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "AXA",
+    "APM",
+    "DXI",
+    "Broadcom",
+    "CA App Experience Analytics"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",

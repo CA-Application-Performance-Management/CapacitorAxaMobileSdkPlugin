@@ -1,6 +1,17 @@
-# capacitor-axa-mobile-sdk-plugin-xcframework
+# Capacitor Axa Mobile Sdk
 
-CA App Experience Analytic native SDK's capacitor supplement for using custom metrics
+**Capacitor Axa Mobile Sdk** is a modern, well-supported, and cross-platform sdk for App Experience Analytics that provides deep insights into the performance, user experience, crash, and log analytics of apps.
+
+## Platforms Supported
+
+-  iOS
+-  Android
+
+## Getting started
+
+[DX App Experience Analytics](https://www.broadcom.com/info/aiops/app-analytics)
+
+Check out our [documentation](https://techdocs.broadcom.com/content/broadcom/techdocs/us/en/ca-enterprise-software/it-operations-management/app-experience-analytics-saas/SaaS/reference/data-collected-by-ca-app-experience-analytics-sdk.html) for more information about the features that the App Experience Analytics SDK collects from your app.
 
 ## Install
 
@@ -9,7 +20,89 @@ npm install capacitor-axa-mobile-sdk-plugin-xcframework
 npx cap sync
 ```
 
-## API
+## Initialising the SDK in your Source code
+
+<details>
+<summary> Code Changes </summary>
+    
+<blockquote>
+<details>
+<summary> iOS </summary>
+
+<blockquote>
+<details>
+<summary> Swift </summary>
+
+1. Add a header file with the file name format as `<app_name>-Bridging-header.h`.
+        
+2. Add the import header `#import "CAMDOReporter.h"` to your `<app_name>-Bridging-header.h` file. 
+        
+3. Add the `<app_name>-Bridging-header.h` file to Swift Compiler - Code Generation section in the Build Settings.
+        `<name of the project>/<app_name>-Bridging-header.h`
+        
+4. Initialize the CAMobileAppAnalytics sdk in `didFinishLaunchingWithOptions` method
+    ```sh
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        //Initialize CA App Experience Analytics SDK
+        CAMDOReporter.initializeSDK(options: SDKOptions.SDKLogLevelVerbose) { (completed, error) in
+
+        }
+        return true
+    }
+    ```
+5. Drag & Drop the downloaded `xxx_camdo.plist` file into the Supporting files
+</details>
+</blockquote>
+
+<blockquote>    
+<details>
+<summary> Objective C </summary>
+
+1. Add the import header `#import "CAMDOReporter.h"` to your AppDelegate.m file
+2. Initialize the CAMobileAppAnalytics sdk in `didFinishLaunchingWithOptions:` method 
+    ```sh
+    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+    {
+        [CAMDOReporter initializeSDKWithOptions:SDKLogLevelVerbose  completionHandler:nil];
+        return YES;
+    }
+    ```
+3. Drag & Drop the downloaded `xxx_camdo.plist` file into the Supporting files
+</details>
+</blockquote>
+
+</details>
+</blockquote>
+</details>
+
+## Updation
+
+```bash
+npm install capacitor-axa-mobile-sdk-plugin-xcframework
+npx cap sync
+```
+
+## Usage
+
+```typescript
+import { CapacitorAxaMobileSdk } from 'capacitor-axa-mobile-sdk-plugin-xcframework';
+```
+
+To add listeners
+```typescript
+import { CAMAA_NOTIFICATION_TYPE, CapacitorAxaMobileSdk } from 'capacitor-axa-mobile-sdk-plugin-xcframework';
+```
+
+## APIs
+
+Individual APIs interact with the SDK to perform specific tasks, reading, or setting information.  All APIs are asynchronous and returning information is achieved using a block.
+
+
+```typescript
+CapacitorAxaMobileSdk.individualAPI();
+CapacitorAxaMobileSdk.individualAPI({ argument1: value, argument2: value, ... });
+CapacitorAxaMobileSdk.individualAPI({ argument1: value, argument2: value, ... }).then(result) => {};
+```
 
 <docgen-index>
 

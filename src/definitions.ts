@@ -2,9 +2,6 @@ import type { PluginListenerHandle } from '@capacitor/core';
 
 export interface CapacitorAxaMobileSdkPlugin {
 
-  addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, listenerFunc: () => void): Promise<PluginListenerHandle> & PluginListenerHandle;
-  addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, listenerFunc: () => void): Promise<PluginListenerHandle> & PluginListenerHandle;
-
   /**
    * Use this API to enable SDK.
    * The SDK is enabled by default. You need to call this API
@@ -27,7 +24,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * Returns a boolean value
    *
    */
-   isSDKEnabled(): Promise<CAMDOIsSDKEnabledResult>;
+   isSDKEnabled(): Promise<{ value: boolean }>;
   
 
   /**
@@ -36,7 +33,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * Returns a device id value
    *
    */
-   getDeviceId(): Promise<CAMDODeviceId>;
+   getDeviceId(): Promise<{ value: string }>;
 
 
   /**
@@ -44,7 +41,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * Returns a customerId value. If the customer ID is not set, this API returns a null value.
    *
    */
-   getCustomerId(): Promise<CAMDOCustomerId>;
+   getCustomerId(): Promise<{ value: string | null }>;
 
 
   /**
@@ -52,10 +49,10 @@ export interface CapacitorAxaMobileSdkPlugin {
    *
    * @param customerId is a string containing the customer ID
    * If an empty string is passed, the customer iD is reset.
-   * Retruns a (SDKError value)
+   * callback is a function which expects an (SDKError value)
    *
    */
-   setCustomerId(options: {customerId: string}): Promise<CAMDOSDKErrorCallback>;
+   setCustomerId(options: {customerId: string}): Promise<{ error: SDKError }>;
 
 
   /**
@@ -66,7 +63,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * callback is a function which expects an (SDKError value)
    * 
    */
-   setSessionAttribute(options: { name: string, value: string}): Promise<CAMDOSDKErrorCallback>;
+   setSessionAttribute(options: { name: string, value: string}): Promise<{ error: SDKError }>;
 
 
   /**
@@ -93,7 +90,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * Returns a boolean value
    *
    */
-   isInPrivateZone(): Promise<CAMDOIsInPrivateResult>;
+   isInPrivateZone(): Promise<{ value: boolean }>;
 
 
   /**
@@ -102,7 +99,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * Returns an empty string if apm header cannot be computed
    *
    */
-   getAPMHeader(): Promise<CAMDOAPMHeaderResult>;
+   getAPMHeader(): Promise<{ value: object | null }>;
 
 
   /**
@@ -163,14 +160,14 @@ export interface CapacitorAxaMobileSdkPlugin {
    *
    * @param transactionName is a string to indicate the transaction being processed
    * @param serviceName is a string to indicate the service or application being applied
-   * Returns a CAMDOSDKCallback
+   * Returns a callback
    *
    * If successful, completed = YES and error is nil.
    * In case of failure, completed = NO and error will have NSError object with
    * domain, code and localizedDescription.
    *
    */
-   startApplicationTransaction(options: {transactionName: string, serviceName?: string} ): Promise<CAMDOSDKCallback>;
+   startApplicationTransaction(options: {transactionName: string, serviceName?: string} ): Promise<{ completed: boolean, error: string | null }>;
 
 
   /**
@@ -178,14 +175,14 @@ export interface CapacitorAxaMobileSdkPlugin {
    *
    * @param transactionName is a string to indicate the transaction being processed
    * @param failureString is a string to indicate the failure name, message or type
-   * Returns a CAMDOSDKCallback
+   * Returns a callback
    *
    * If successful, completed = YES and error is nil.
    * In case of failure, completed = NO and error will have NSError object with
    * domain, code and localizedDescription.
    *
    */
-   stopApplicationTransaction(options: {transactionName: string, failure?: string}): Promise<CAMDOSDKCallback>; 
+   stopApplicationTransaction(options: {transactionName: string, failure?: string}): Promise<{ completed: boolean, error: string | null }>; 
 
   
   /**
@@ -223,39 +220,28 @@ export interface CapacitorAxaMobileSdkPlugin {
    *
    * The default value is CAMAA_SCREENSHOT_QUALITY_LOW.
    *
-   * Returns a CAMDOSDKCallback
+   * Returns a callback
    * 
    * If successful, completed = YES and error is nil.
    * In case of failure, completed = NO and error will have NSError object with
    * domain, code and localizedDescription.
    *
    */
-   sendScreenShot(options: {name: string, quality: CAMDOSDKImageQualityType}): Promise<CAMDOSDKCallback>;
+   sendScreenShot(options: {name: string, quality: CAMDOSDKImageQualityType}): Promise<{ completed: boolean, error: string | null }>;
 
-  /**
-   * Use this API to programmatically enable or disable automatic screen captures.
-   *
-   * @param captureScreen is a boolean value to enable/disable automatic screen captures.
-   *
-   * Normally the policy determines whether automatic screen captures are performed.
-   * Use this API to override the policy, or the current setting of this flag.
-   *
-   */
-   enableScreenShots(captureScreen: boolean): void;
-  
   /**
    * Use this API to create a custom app flow with dynamic views
    *
    * @param viewName is the name of the view that was loaded
    * @param loadTime is the time it took to load the view
-   * Returns a CAMDOSDKCallback
+   * Returns a callback
    * 
    * If successful, completed = YES and error is nil.
    * In case of failure, completed = NO and error will have NSError object with
    * domain, code and localizedDescription.
    *
    */
-   viewLoaded(options: {viewName: string, loadTime: number, screenShot?: boolean}): Promise<CAMDOSDKCallback>; 
+   viewLoaded(options: {viewName: string, loadTime: number, screenShot?: boolean}): Promise<{ completed: boolean, error: string | null }>; 
 
 
   /**
@@ -284,7 +270,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * Returns YES if screenshots are enabled by policy.  Otherwise returns NO
    * 
    */
-   isScreenshotPolicyEnabled(): Promise<CAMDOIsPolicyEnabledResult>; 
+   isScreenshotPolicyEnabled(): Promise<{ value: boolean }>; 
 
   /**
    * Use this API to add a custom network event in the current session
@@ -294,14 +280,14 @@ export interface CapacitorAxaMobileSdkPlugin {
    * @param responseTime is an integer value representing the response time
    * @param inBytes is an integer value representing the number of bytes input
    * @param outBytes is an integer value representing the number of bytes output
-   * Returns a CAMDOSDKCallback
+   * Returns a callback
    * 
    * If successful, completed = YES and error is nil.
    * In case of failure, completed = NO and error will have NSError object with
    * domain, code and localizedDescription.
    *
    */
-   logNetworkEvent(options: {url: string, status: number, responseTime: number, inBytes: number, outBytes: number} ): Promise<CAMDOSDKCallback>;
+   logNetworkEvent(options: {url: string, status: number, responseTime: number, inBytes: number, outBytes: number} ): Promise<{ completed: boolean, error: string | null }>;
 
 
   /**
@@ -310,14 +296,14 @@ export interface CapacitorAxaMobileSdkPlugin {
    * @param textMetricName is a string to indicate a text metric name
    * @param textMetricValue is a string to indicate a text metric value
    * @param attributes is a Map or Dictionary used to send any extra parameters
-   * Returns a CAMDOSDKCallback
+   * Returns a callback
    * 
    * If successful, completed = YES and error is nil.
    * In case of failure, completed = NO and error will have NSError object with
    * domain, code and localizedDescription.
    *
    */
-   logTextMetric(options: {textMetricName: string, value: string, attributes?: object}): Promise<CAMDOSDKCallback>;
+   logTextMetric(options: {textMetricName: string, value: string, attributes?: object}): Promise<{ completed: boolean, error: string | null }>;
 
 
   /**
@@ -326,14 +312,14 @@ export interface CapacitorAxaMobileSdkPlugin {
    * @param numericMetricName is a string to indicate a numeric metric name
    * @param numericMetricValue is a numeric value, e.g. 3.14159, 2048.95, or 42, etc.
    * @param attributes is a Map or Dictionary used to send any extra parameters
-   * Returns a CAMDOSDKCallback
+   * Returns a callback
    * 
    * If successful, completed = YES and error is nil.
    * In case of failure, completed = NO and error will have NSError object with
    * domain, code and localizedDescription.
    *
    */
-   logNumericMetric(options: {numericMetricName: string, value: number, attributes?: object}): Promise<CAMDOSDKCallback>;
+   logNumericMetric(options: {numericMetricName: string, value: number, attributes?: object}): Promise<{ completed: boolean, error: string | null }>;
 
 
   /**
@@ -350,10 +336,16 @@ export interface CapacitorAxaMobileSdkPlugin {
    * with domain, code and localizedDescription.
    *
    */
-   uploadEvents(): Promise<CAMDOUploadEventsCallback>;
+   uploadEvents(): Promise<{ response: object, error: string | null }>;
+
+   
+   addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, listenerFunc: () => void): Promise<PluginListenerHandle> & PluginListenerHandle;
+   addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, listenerFunc: () => void): Promise<PluginListenerHandle> & PluginListenerHandle;
 
 
-  /**
+   logUIEvent(options: {eventType: CAMDOUIEventType, value: string} ): void;
+
+   /**
    * Use this API to set your delegate instance to handle auth challenges.
    * Use it when using SDKUseNetworkProtocolSwizzling option
    *
@@ -371,13 +363,19 @@ export interface CapacitorAxaMobileSdkPlugin {
    *
    */
    setLocation(options: {latitude: number, longitude: number}): void;
-  
 
-   logUIEvent(options: {eventType: CAMDOUIEventType, value: string} ): void;
+   /**
+   * Use this API to programmatically enable or disable automatic screen captures.
+   *
+   * @param captureScreen is a boolean value to enable/disable automatic screen captures.
+   *
+   * Normally the policy determines whether automatic screen captures are performed.
+   * Use this API to override the policy, or the current setting of this flag.
+   *
+   */
+   enableScreenShots(captureScreen: boolean): void;
 
 }
-
-
 
 // Enums for SDK Errors
 export enum SDKError {
@@ -395,43 +393,6 @@ export enum CAMDOSSLPinningMode {
   CAMDOSSLPinningModeCertificate,
   CAMDOSSLPinningModeFingerPrintSHA1Signature,
   CAMDOSSLPinningModePublicKeyHash
-}
-
-export interface CAMDOSDKCallback {
-  completed: boolean;
-  error: string | null;
-}
-
-export interface CAMDOUploadEventsCallback {
-  response: object;
-  error: string | null;
-}
-
-export interface CAMDOSDKErrorCallback {
-  error: SDKError;
-}
-
-export interface CAMDODeviceId {
-  value: string
-}
-
-export interface CAMDOCustomerId {
-  value: string | null
-}
-
-export interface CAMDOIsSDKEnabledResult {
-  value: boolean
-}
-
-export interface CAMDOIsInPrivateResult {
-  value: boolean
-}
-
-export interface CAMDOIsPolicyEnabledResult {
-  value: boolean
-}
-export interface CAMDOAPMHeaderResult {
-  value: object | null;
 }
 
 export enum CAMDOSDKImageQualityType {

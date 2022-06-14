@@ -85,12 +85,15 @@ npx cap sync
 ## Usage
 
 ```typescript
-import { CapacitorAxaMobileSdk } from 'capacitor-axa-mobile-sdk-plugin-xcframework';
-```
+import { CAMDOSDKImageQualityType, CapacitorAxaMobileSdk } from 'capacitor-axa-mobile-sdk-plugin-xcframework';
 
-To add listeners
-```typescript
-import { CAMAA_NOTIFICATION_TYPE, CapacitorAxaMobileSdk } from 'capacitor-axa-mobile-sdk-plugin-xcframework';
+CapacitorAxaMobileSdk.addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, () => {
+  console.log("Upload initiated by SDK");
+})
+
+CapacitorAxaMobileSdk.getDeviceId().then(({value}) => {
+    console.log(value);
+});
 ```
 
 ## APIs
@@ -106,8 +109,6 @@ CapacitorAxaMobileSdk.individualAPI({ argument1: value, argument2: value, ... })
 
 <docgen-index>
 
-* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, ...)`](#addlistenercamaa_notification_typecamaa_crash_occurred)
-* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, ...)`](#addlistenercamaa_notification_typecamaa_upload_initiated)
 * [`enableSDK()`](#enablesdk)
 * [`disableSDK()`](#disablesdk)
 * [`isSDKEnabled()`](#issdkenabled)
@@ -129,7 +130,6 @@ CapacitorAxaMobileSdk.individualAPI({ argument1: value, argument2: value, ... })
 * [`setCustomerFeedback(...)`](#setcustomerfeedback)
 * [`setCustomerLocation(...)`](#setcustomerlocation)
 * [`sendScreenShot(...)`](#sendscreenshot)
-* [`enableScreenShots(...)`](#enablescreenshots)
 * [`viewLoaded(...)`](#viewloaded)
 * [`ignoreView(...)`](#ignoreview)
 * [`ignoreViews(...)`](#ignoreviews)
@@ -138,9 +138,12 @@ CapacitorAxaMobileSdk.individualAPI({ argument1: value, argument2: value, ... })
 * [`logTextMetric(...)`](#logtextmetric)
 * [`logNumericMetric(...)`](#lognumericmetric)
 * [`uploadEvents()`](#uploadevents)
+* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, ...)`](#addlistenercamaa_notification_typecamaa_crash_occurred)
+* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, ...)`](#addlistenercamaa_notification_typecamaa_upload_initiated)
+* [`logUIEvent(...)`](#loguievent)
 * [`setNSURLSessionDelegate(...)`](#setnsurlsessiondelegate)
 * [`setLocation(...)`](#setlocation)
-* [`logUIEvent(...)`](#loguievent)
+* [`enableScreenShots(...)`](#enablescreenshots)
 * [Interfaces](#interfaces)
 * [Enums](#enums)
 
@@ -148,38 +151,6 @@ CapacitorAxaMobileSdk.individualAPI({ argument1: value, argument2: value, ... })
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
-
-### addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, ...)
-
-```typescript
-addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, listenerFunc: () => void) => Promise<PluginListenerHandle> & PluginListenerHandle
-```
-
-| Param              | Type                                                                                             |
-| ------------------ | ------------------------------------------------------------------------------------------------ |
-| **`eventName`**    | <code><a href="#camaa_notification_type">CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED</a></code> |
-| **`listenerFunc`** | <code>() =&gt; void</code>                                                                       |
-
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
-
---------------------
-
-
-### addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, ...)
-
-```typescript
-addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, listenerFunc: () => void) => Promise<PluginListenerHandle> & PluginListenerHandle
-```
-
-| Param              | Type                                                                                               |
-| ------------------ | -------------------------------------------------------------------------------------------------- |
-| **`eventName`**    | <code><a href="#camaa_notification_type">CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED</a></code> |
-| **`listenerFunc`** | <code>() =&gt; void</code>                                                                         |
-
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
-
---------------------
-
 
 ### enableSDK()
 
@@ -210,14 +181,14 @@ or user interaction.
 ### isSDKEnabled()
 
 ```typescript
-isSDKEnabled() => Promise<CAMDOIsSDKEnabledResult>
+isSDKEnabled() => Promise<{ value: boolean; }>
 ```
 
 Use this API to determine if the SDK is enabled or not.
 
 Returns a boolean value
 
-**Returns:** <code>Promise&lt;<a href="#camdoissdkenabledresult">CAMDOIsSDKEnabledResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ value: boolean; }&gt;</code>
 
 --------------------
 
@@ -225,14 +196,14 @@ Returns a boolean value
 ### getDeviceId()
 
 ```typescript
-getDeviceId() => Promise<CAMDODeviceId>
+getDeviceId() => Promise<{ value: string; }>
 ```
 
 Use this API to get the unique device ID generated by the SDK
 
 Returns a device id value
 
-**Returns:** <code>Promise&lt;<a href="#camdodeviceid">CAMDODeviceId</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
 --------------------
 
@@ -240,13 +211,13 @@ Returns a device id value
 ### getCustomerId()
 
 ```typescript
-getCustomerId() => Promise<CAMDOCustomerId>
+getCustomerId() => Promise<{ value: string | null; }>
 ```
 
 Use this API to get the customer ID for this session.
 Returns a customerId value. If the customer ID is not set, this API returns a null value.
 
-**Returns:** <code>Promise&lt;<a href="#camdocustomerid">CAMDOCustomerId</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ value: string | null; }&gt;</code>
 
 --------------------
 
@@ -254,7 +225,7 @@ Returns a customerId value. If the customer ID is not set, this API returns a nu
 ### setCustomerId(...)
 
 ```typescript
-setCustomerId(options: { customerId: string; }) => Promise<CAMDOSDKErrorCallback>
+setCustomerId(options: { customerId: string; }) => Promise<{ error: SDKError; }>
 ```
 
 Use this API to set the customer ID for this session.
@@ -263,7 +234,7 @@ Use this API to set the customer ID for this session.
 | ------------- | ------------------------------------ |
 | **`options`** | <code>{ customerId: string; }</code> |
 
-**Returns:** <code>Promise&lt;<a href="#camdosdkerrorcallback">CAMDOSDKErrorCallback</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ error: <a href="#sdkerror">SDKError</a>; }&gt;</code>
 
 --------------------
 
@@ -271,7 +242,7 @@ Use this API to set the customer ID for this session.
 ### setSessionAttribute(...)
 
 ```typescript
-setSessionAttribute(options: { name: string; value: string; }) => Promise<CAMDOSDKErrorCallback>
+setSessionAttribute(options: { name: string; value: string; }) => Promise<{ error: SDKError; }>
 ```
 
 Use this API to set a custom session attribute.
@@ -280,7 +251,7 @@ Use this API to set a custom session attribute.
 | ------------- | --------------------------------------------- |
 | **`options`** | <code>{ name: string; value: string; }</code> |
 
-**Returns:** <code>Promise&lt;<a href="#camdosdkerrorcallback">CAMDOSDKErrorCallback</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ error: <a href="#sdkerror">SDKError</a>; }&gt;</code>
 
 --------------------
 
@@ -315,14 +286,14 @@ Use this API to start collecting all data again
 ### isInPrivateZone()
 
 ```typescript
-isInPrivateZone() => Promise<CAMDOIsInPrivateResult>
+isInPrivateZone() => Promise<{ value: boolean; }>
 ```
 
 Use this API to determine if the SDK is in a private zone.
 
 Returns a boolean value
 
-**Returns:** <code>Promise&lt;<a href="#camdoisinprivateresult">CAMDOIsInPrivateResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ value: boolean; }&gt;</code>
 
 --------------------
 
@@ -330,14 +301,14 @@ Returns a boolean value
 ### getAPMHeader()
 
 ```typescript
-getAPMHeader() => Promise<CAMDOAPMHeaderResult>
+getAPMHeader() => Promise<{ value: object | null; }>
 ```
 
 Use this API to get the SDK computed APM header in key value format.
 Returns dictionary or map of key, value pairs
 Returns an empty string if apm header cannot be computed
 
-**Returns:** <code>Promise&lt;<a href="#camdoapmheaderresult">CAMDOAPMHeaderResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ value: object | null; }&gt;</code>
 
 --------------------
 
@@ -412,7 +383,7 @@ Equivalent to calling stopCurrentSession() and startNewSession()
 ### startApplicationTransaction(...)
 
 ```typescript
-startApplicationTransaction(options: { transactionName: string; serviceName?: string; }) => Promise<CAMDOSDKCallback>
+startApplicationTransaction(options: { transactionName: string; serviceName?: string; }) => Promise<{ completed: boolean; error: string | null; }>
 ```
 
 Use this API to start a transaction with a specific name
@@ -421,7 +392,7 @@ Use this API to start a transaction with a specific name
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code>{ transactionName: string; serviceName?: string; }</code> |
 
-**Returns:** <code>Promise&lt;<a href="#camdosdkcallback">CAMDOSDKCallback</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ completed: boolean; error: string | null; }&gt;</code>
 
 --------------------
 
@@ -429,7 +400,7 @@ Use this API to start a transaction with a specific name
 ### stopApplicationTransaction(...)
 
 ```typescript
-stopApplicationTransaction(options: { transactionName: string; failure?: string; }) => Promise<CAMDOSDKCallback>
+stopApplicationTransaction(options: { transactionName: string; failure?: string; }) => Promise<{ completed: boolean; error: string | null; }>
 ```
 
 Use this API to stop a transaction with a specific name and an optional failure string
@@ -438,7 +409,7 @@ Use this API to stop a transaction with a specific name and an optional failure 
 | ------------- | ----------------------------------------------------------- |
 | **`options`** | <code>{ transactionName: string; failure?: string; }</code> |
 
-**Returns:** <code>Promise&lt;<a href="#camdosdkcallback">CAMDOSDKCallback</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ completed: boolean; error: string | null; }&gt;</code>
 
 --------------------
 
@@ -477,7 +448,7 @@ using postalCode and countryCode.
 ### sendScreenShot(...)
 
 ```typescript
-sendScreenShot(options: { name: string; quality: CAMDOSDKImageQualityType; }) => Promise<CAMDOSDKCallback>
+sendScreenShot(options: { name: string; quality: CAMDOSDKImageQualityType; }) => Promise<{ completed: boolean; error: string | null; }>
 ```
 
 Use this API to send a screen shot of the current screen
@@ -486,22 +457,7 @@ Use this API to send a screen shot of the current screen
 | ------------- | --------------------------------------------------------------------------------------------------------- |
 | **`options`** | <code>{ name: string; quality: <a href="#camdosdkimagequalitytype">CAMDOSDKImageQualityType</a>; }</code> |
 
-**Returns:** <code>Promise&lt;<a href="#camdosdkcallback">CAMDOSDKCallback</a>&gt;</code>
-
---------------------
-
-
-### enableScreenShots(...)
-
-```typescript
-enableScreenShots(captureScreen: boolean) => void
-```
-
-Use this API to programmatically enable or disable automatic screen captures.
-
-| Param               | Type                 | Description                                                                                                                                                                                                               |
-| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`captureScreen`** | <code>boolean</code> | is a boolean value to enable/disable automatic screen captures. Normally the policy determines whether automatic screen captures are performed. Use this API to override the policy, or the current setting of this flag. |
+**Returns:** <code>Promise&lt;{ completed: boolean; error: string | null; }&gt;</code>
 
 --------------------
 
@@ -509,7 +465,7 @@ Use this API to programmatically enable or disable automatic screen captures.
 ### viewLoaded(...)
 
 ```typescript
-viewLoaded(options: { viewName: string; loadTime: number; screenShot?: boolean; }) => Promise<CAMDOSDKCallback>
+viewLoaded(options: { viewName: string; loadTime: number; screenShot?: boolean; }) => Promise<{ completed: boolean; error: string | null; }>
 ```
 
 Use this API to create a custom app flow with dynamic views
@@ -518,7 +474,7 @@ Use this API to create a custom app flow with dynamic views
 | ------------- | -------------------------------------------------------------------------- |
 | **`options`** | <code>{ viewName: string; loadTime: number; screenShot?: boolean; }</code> |
 
-**Returns:** <code>Promise&lt;<a href="#camdosdkcallback">CAMDOSDKCallback</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ completed: boolean; error: string | null; }&gt;</code>
 
 --------------------
 
@@ -556,7 +512,7 @@ Use this API to provide a list of view names to be ignored.
 ### isScreenshotPolicyEnabled()
 
 ```typescript
-isScreenshotPolicyEnabled() => Promise<CAMDOIsPolicyEnabledResult>
+isScreenshotPolicyEnabled() => Promise<{ value: boolean; }>
 ```
 
 Use this API to determine if automatic screenshots are enabled by policy.
@@ -564,7 +520,7 @@ Use this API to determine if automatic screenshots are enabled by policy.
 Returns a boolean value
 Returns YES if screenshots are enabled by policy.  Otherwise returns NO
 
-**Returns:** <code>Promise&lt;<a href="#camdoispolicyenabledresult">CAMDOIsPolicyEnabledResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ value: boolean; }&gt;</code>
 
 --------------------
 
@@ -572,7 +528,7 @@ Returns YES if screenshots are enabled by policy.  Otherwise returns NO
 ### logNetworkEvent(...)
 
 ```typescript
-logNetworkEvent(options: { url: string; status: number; responseTime: number; inBytes: number; outBytes: number; }) => Promise<CAMDOSDKCallback>
+logNetworkEvent(options: { url: string; status: number; responseTime: number; inBytes: number; outBytes: number; }) => Promise<{ completed: boolean; error: string | null; }>
 ```
 
 Use this API to add a custom network event in the current session
@@ -581,7 +537,7 @@ Use this API to add a custom network event in the current session
 | ------------- | ------------------------------------------------------------------------------------------------------ |
 | **`options`** | <code>{ url: string; status: number; responseTime: number; inBytes: number; outBytes: number; }</code> |
 
-**Returns:** <code>Promise&lt;<a href="#camdosdkcallback">CAMDOSDKCallback</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ completed: boolean; error: string | null; }&gt;</code>
 
 --------------------
 
@@ -589,7 +545,7 @@ Use this API to add a custom network event in the current session
 ### logTextMetric(...)
 
 ```typescript
-logTextMetric(options: { textMetricName: string; value: string; attributes?: object; }) => Promise<CAMDOSDKCallback>
+logTextMetric(options: { textMetricName: string; value: string; attributes?: object; }) => Promise<{ completed: boolean; error: string | null; }>
 ```
 
 Use this API to add a custom text metric in the current session
@@ -598,7 +554,7 @@ Use this API to add a custom text metric in the current session
 | ------------- | ---------------------------------------------------------------------------- |
 | **`options`** | <code>{ textMetricName: string; value: string; attributes?: object; }</code> |
 
-**Returns:** <code>Promise&lt;<a href="#camdosdkcallback">CAMDOSDKCallback</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ completed: boolean; error: string | null; }&gt;</code>
 
 --------------------
 
@@ -606,7 +562,7 @@ Use this API to add a custom text metric in the current session
 ### logNumericMetric(...)
 
 ```typescript
-logNumericMetric(options: { numericMetricName: string; value: number; attributes?: object; }) => Promise<CAMDOSDKCallback>
+logNumericMetric(options: { numericMetricName: string; value: number; attributes?: object; }) => Promise<{ completed: boolean; error: string | null; }>
 ```
 
 Use this API to add a custom numeric metric value in the current session
@@ -615,7 +571,7 @@ Use this API to add a custom numeric metric value in the current session
 | ------------- | ------------------------------------------------------------------------------- |
 | **`options`** | <code>{ numericMetricName: string; value: number; attributes?: object; }</code> |
 
-**Returns:** <code>Promise&lt;<a href="#camdosdkcallback">CAMDOSDKCallback</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ completed: boolean; error: string | null; }&gt;</code>
 
 --------------------
 
@@ -623,13 +579,58 @@ Use this API to add a custom numeric metric value in the current session
 ### uploadEvents()
 
 ```typescript
-uploadEvents() => Promise<CAMDOUploadEventsCallback>
+uploadEvents() => Promise<{ response: object; error: string | null; }>
 ```
 
 Use this API to force an upload event.
 This is bulk/resource consuming operation and should be used with caution
 
-**Returns:** <code>Promise&lt;<a href="#camdouploadeventscallback">CAMDOUploadEventsCallback</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ response: object; error: string | null; }&gt;</code>
+
+--------------------
+
+
+### addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, ...)
+
+```typescript
+addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, listenerFunc: () => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+| Param              | Type                                                                                             |
+| ------------------ | ------------------------------------------------------------------------------------------------ |
+| **`eventName`**    | <code><a href="#camaa_notification_type">CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED</a></code> |
+| **`listenerFunc`** | <code>() =&gt; void</code>                                                                       |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+--------------------
+
+
+### addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, ...)
+
+```typescript
+addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, listenerFunc: () => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+| Param              | Type                                                                                               |
+| ------------------ | -------------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code><a href="#camaa_notification_type">CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED</a></code> |
+| **`listenerFunc`** | <code>() =&gt; void</code>                                                                         |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+--------------------
+
+
+### logUIEvent(...)
+
+```typescript
+logUIEvent(options: { eventType: CAMDOUIEventType; value: string; }) => void
+```
+
+| Param         | Type                                                                                         |
+| ------------- | -------------------------------------------------------------------------------------------- |
+| **`options`** | <code>{ eventType: <a href="#camdouieventtype">CAMDOUIEventType</a>; value: string; }</code> |
 
 --------------------
 
@@ -665,15 +666,17 @@ Use this API to set Geographic or GPS Location of the Customer
 --------------------
 
 
-### logUIEvent(...)
+### enableScreenShots(...)
 
 ```typescript
-logUIEvent(options: { eventType: CAMDOUIEventType; value: string; }) => void
+enableScreenShots(captureScreen: boolean) => void
 ```
 
-| Param         | Type                                                                                         |
-| ------------- | -------------------------------------------------------------------------------------------- |
-| **`options`** | <code>{ eventType: <a href="#camdouieventtype">CAMDOUIEventType</a>; value: string; }</code> |
+Use this API to programmatically enable or disable automatic screen captures.
+
+| Param               | Type                 | Description                                                                                                                                                                                                               |
+| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`captureScreen`** | <code>boolean</code> | is a boolean value to enable/disable automatic screen captures. Normally the policy determines whether automatic screen captures are performed. Use this API to override the policy, or the current setting of this flag. |
 
 --------------------
 
@@ -688,80 +691,7 @@ logUIEvent(options: { eventType: CAMDOUIEventType; value: string; }) => void
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
 
-#### CAMDOIsSDKEnabledResult
-
-| Prop        | Type                 |
-| ----------- | -------------------- |
-| **`value`** | <code>boolean</code> |
-
-
-#### CAMDODeviceId
-
-| Prop        | Type                |
-| ----------- | ------------------- |
-| **`value`** | <code>string</code> |
-
-
-#### CAMDOCustomerId
-
-| Prop        | Type                        |
-| ----------- | --------------------------- |
-| **`value`** | <code>string \| null</code> |
-
-
-#### CAMDOSDKErrorCallback
-
-| Prop        | Type                                          |
-| ----------- | --------------------------------------------- |
-| **`error`** | <code><a href="#sdkerror">SDKError</a></code> |
-
-
-#### CAMDOIsInPrivateResult
-
-| Prop        | Type                 |
-| ----------- | -------------------- |
-| **`value`** | <code>boolean</code> |
-
-
-#### CAMDOAPMHeaderResult
-
-| Prop        | Type                        |
-| ----------- | --------------------------- |
-| **`value`** | <code>object \| null</code> |
-
-
-#### CAMDOSDKCallback
-
-| Prop            | Type                        |
-| --------------- | --------------------------- |
-| **`completed`** | <code>boolean</code>        |
-| **`error`**     | <code>string \| null</code> |
-
-
-#### CAMDOIsPolicyEnabledResult
-
-| Prop        | Type                 |
-| ----------- | -------------------- |
-| **`value`** | <code>boolean</code> |
-
-
-#### CAMDOUploadEventsCallback
-
-| Prop           | Type                        |
-| -------------- | --------------------------- |
-| **`response`** | <code>object</code>         |
-| **`error`**    | <code>string \| null</code> |
-
-
 ### Enums
-
-
-#### CAMAA_NOTIFICATION_TYPE
-
-| Members                      | Value                                 |
-| ---------------------------- | ------------------------------------- |
-| **`CAMAA_UPLOAD_INITIATED`** | <code>'CAMAA_UPLOAD_INITIATED'</code> |
-| **`CAMAA_CRASH_OCCURRED`**   | <code>'CAMAA_CRASH_OCCURRED'</code>   |
 
 
 #### SDKError
@@ -794,6 +724,14 @@ logUIEvent(options: { eventType: CAMDOUIEventType; value: string; }) => void
 | **`CAMAA_SCREENSHOT_QUALITY_MEDIUM`**  | <code>'CAMAA_SCREENSHOT_QUALITY_MEDIUM'</code>  |
 | **`CAMAA_SCREENSHOT_QUALITY_LOW`**     | <code>'CAMAA_SCREENSHOT_QUALITY_LOW'</code>     |
 | **`CAMAA_SCREENSHOT_QUALITY_DEFAULT`** | <code>'CAMAA_SCREENSHOT_QUALITY_DEFAULT'</code> |
+
+
+#### CAMAA_NOTIFICATION_TYPE
+
+| Members                      | Value                                 |
+| ---------------------------- | ------------------------------------- |
+| **`CAMAA_UPLOAD_INITIATED`** | <code>'CAMAA_UPLOAD_INITIATED'</code> |
+| **`CAMAA_CRASH_OCCURRED`**   | <code>'CAMAA_CRASH_OCCURRED'</code>   |
 
 
 #### CAMDOUIEventType

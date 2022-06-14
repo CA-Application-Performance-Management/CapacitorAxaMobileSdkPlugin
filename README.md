@@ -749,3 +749,14 @@ Use this API to programmatically enable or disable automatic screen captures.
 | **`CAMAA_EVENT_SWITCH_PRESSED`**            | <code>'switch_pressed'</code>          |
 
 </docgen-api>
+
+## iOS-only APIs
+The iOS version of the SDK implements a few APIs which are not available in the Android version of the SDK.
+
+The best way to handle these APIs is to put them in conditionals for the platform the App is running on
+* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, ...)`](#addlistenercamaa_notification_typecamaa_crash_occurred)
+* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, ...)`](#addlistenercamaa_notification_typecamaa_upload_initiated)
+* [`logUIEvent(...)`](#loguievent)
+* [`setNSURLSessionDelegate(...)`](#setnsurlsessiondelegate)
+* [`setLocation(...)`](#setlocation)
+* [`enableScreenShots(...)`](#enablescreenshots)

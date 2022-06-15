@@ -745,6 +745,8 @@ Use this API to programmatically enable or disable automatic screen captures.
 | **`CAMAA_EVENT_SLIDER_MOVED`**              | <code>'slider_moved'</code>            |
 | **`CAMAA_EVENT_STEPPER_PRESSED`**           | <code>'stepper_pressed'</code>         |
 | **`CAMAA_EVENT_SWITCH_PRESSED`**            | <code>'switch_pressed'</code>          |
+| **`CAMAA_AI_START`**                        | <code>'ai_start'</code>                |
+| **`CAMAA_AI_END`**                          | <code>'ai_end'</code>                  |
 
 </docgen-api>
 

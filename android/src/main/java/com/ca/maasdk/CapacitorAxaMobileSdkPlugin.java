@@ -78,6 +78,7 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
             Log.i(TAG, "@setCustomerID done ");
             call.resolve();
         } catch (Exception e) {
+            Log.i(TAG, "@setCustomerID : Exception" + call);
             call.reject(e.getLocalizedMessage(), e);
         }
 
@@ -124,7 +125,7 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
     }
 
     @PluginMethod()
-    public void getAPMHeaders(PluginCall call) {
+    public void getAPMHeader(PluginCall call) {
         Log.i(TAG, "@getAPMHeaders ");
         Map headers = CaMDOIntegration.getAPMHeaders();
         Log.i(TAG, "@getAPMHeaders done ");
@@ -132,9 +133,9 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
     }
 
     @PluginMethod()
-    public void addToApmHeader(PluginCall call) {
+    public void addToAPMHeader(PluginCall call) {
         Log.i(TAG, "@addToApmHeader ");
-        String headerString = call.getString("value");
+        String headerString = call.getString("data");
         CaMDOIntegration.addToApmHeader(headerString);
         Log.i(TAG, "@addToApmHeader done ");
         call.resolve();
@@ -142,7 +143,7 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
 
     /**
      * Use this API to set the ssl pinning mode and array of pinned values.
-     * 
+     *
      * @param pinningMode
      * @param pinnedValues
      */
@@ -189,7 +190,7 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
 
                 @Override
                 public void onError(int errorCode, Exception exception) {
-                    call.error("Error starting transaction. Reason: " + errorCode, exception);
+                    call.reject("Error starting transaction. Reason: " + errorCode, exception);
                 }
 
                 @Override
@@ -202,7 +203,7 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
             CaMDOIntegration.startApplicationTransaction(transactionName, serviceName, cb);
 
         } catch (Exception e) {
-            call.error("@startApplicationTransaction invalid arguments " + e.getMessage());
+            call.reject("@startApplicationTransaction invalid arguments " + e.getMessage());
         }
     }
 
@@ -211,14 +212,14 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
         Log.i(TAG, "@stopApplicationTransaction ");
         try {
             JSObject data = call.getData();
-            String transactionName = data.getString("transactionName");
-            String failure = data.getString("failure");
+            String transactionName = call.getString("transactionName");
+            String failure = call.getString("failure");
             Log.i(TAG, "@stopApplicationTransaction with value : (" + transactionName + "," + failure + ")");
             CaMDOCallback cb = new CaMDOCallback(null) {
 
                 @Override
                 public void onError(int errorCode, Exception exception) {
-                    call.error("Error Stoping transaction. Reason: " + errorCode, exception);
+                    call.reject("Error Stoping transaction. Reason: " + errorCode, exception);
                 }
 
                 @Override
@@ -230,7 +231,7 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
             };
             CaMDOIntegration.stopApplicationTransaction(transactionName, failure, cb);
         } catch (Exception e) {
-            call.error("@stopApplicationTransaction invalid arguments " + e.getMessage());
+            call.reject("@stopApplicationTransaction invalid arguments " + e.getMessage());
         }
     }
 
@@ -266,7 +267,7 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
             Log.i(TAG, "@setCustomerLocation done setting location ");
             call.resolve();
         } catch (Exception e) {
-            call.error("@setCustomerLocation invalid arguments " + e.getMessage());
+            call.reject("@setCustomerLocation invalid arguments " + e.getMessage());
         }
     }
 
@@ -275,14 +276,28 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
         Log.i(TAG, "@sendScreenShot ");
         try {
             JSObject data = call.getData();
-            String screenName = data.getString("screenName");
-            int imageQuality = data.getInt("imageQuality");
+            String screenName = call.getString("name");
+            String imageQuality = call.getString("quality");
             Log.i(TAG, "@sendScreenShot with value : (" + screenName + "," + imageQuality + ")");
+            int screenshotQuality = CaMDOIntegration.CAMAA_SCREENSHOT_QUALITY_DEFAULT;
+            switch (imageQuality) {
+
+                case "CAMAA_SCREENSHOT_QUALITY_HIGH":
+                    screenshotQuality = CaMDOIntegration.CAMAA_SCREENSHOT_QUALITY_HIGH;
+                case "CAMAA_SCREENSHOT_QUALITY_MEDIUM":
+                    screenshotQuality = CaMDOIntegration.CAMAA_SCREENSHOT_QUALITY_MEDIUM;
+                case "CAMAA_SCREENSHOT_QUALITY_LOW":
+                    screenshotQuality = CaMDOIntegration.CAMAA_SCREENSHOT_QUALITY_LOW;
+                case "CAMAA_SCREENSHOT_QUALITY_DEFAULT":
+                default:
+                    screenshotQuality = CaMDOIntegration.CAMAA_SCREENSHOT_QUALITY_DEFAULT;
+            }
+
             CaMDOCallback cb = new CaMDOCallback(null) {
 
                 @Override
                 public void onError(int errorCode, Exception exception) {
-                    call.error("Error sending ScreenShot. Reason: " + errorCode, exception);
+                    call.reject("Error sending ScreenShot. Reason: " + errorCode, exception);
                 }
 
                 @Override
@@ -292,10 +307,10 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
 
                 }
             };
-            CaMDOIntegration.sendScreenShot(screenName, imageQuality, cb);
+            CaMDOIntegration.sendScreenShot(screenName, screenshotQuality, cb);
 
         } catch (Exception e) {
-            call.error("@sendScreenShot invalid arguments " + e.getMessage());
+            call.reject("@sendScreenShot invalid arguments " + e.getMessage());
         }
     }
 
@@ -304,14 +319,14 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
         Log.i(TAG, "@viewLoaded ");
         try {
             JSObject data = call.getData();
-            String viewName = data.getString("viewName");
-            int loadTime = data.getInt("loadTime");
+            String viewName = call.getString("viewName");
+            int loadTime = call.getInt("loadTime");
             Log.i(TAG, "@viewLoaded with value : (" + viewName + "," + loadTime + ")");
             CaMDOCallback cb = new CaMDOCallback(null) {
 
                 @Override
                 public void onError(int errorCode, Exception exception) {
-                    call.error("Error in viewLoaded. Reason: " + errorCode, exception);
+                    call.reject("Error in viewLoaded. Reason: " + errorCode, exception);
                 }
 
                 @Override
@@ -323,15 +338,16 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
             };
             CaMDOIntegration.viewLoaded(viewName, loadTime, cb);
 
-        } catch (JSONException e) {
-            call.error("@viewLoaded  Invalid arguments " + e.getMessage());
+        } catch (Exception e) {
+            call.reject("@viewLoaded  Invalid arguments " + e.getMessage());
+
         }
     }
 
     @PluginMethod()
     public void ignoreView(PluginCall call) {
         Log.i(TAG, "@ignoreView ");
-        String viewName = call.getString("value");
+        String viewName = call.getString("viewName");
         CaMDOIntegration.ignoreView(viewName);
         Log.i(TAG, "@ignoreView done ");
         call.resolve();
@@ -367,82 +383,97 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
             Log.i(TAG, "@logNetworkEvent done ");
             call.resolve();
         } catch (JSONException e) {
-            call.error("@logNetworkEvent Invalid arguments " + e.getMessage());
+            call.reject("@logNetworkEvent Invalid arguments " + e.getMessage());
         }
     }
 
     @PluginMethod()
     public void logTextMetric(PluginCall call) {
         Log.i(TAG, "@logTextMetric ");
-        JSObject data = call.getData();
-        String metricName = data.getString("metricName");
-        String metricValue = data.getString("metricValue");
-        JSObject attributes = data.getJSObject("attributes");
-        Map attribMap = getMap(attributes);
-        Log.i(TAG, "@logTextMetric with value : (" + metricName + "," + metricValue + ")");
-        CaMDOCallback cb = new CaMDOCallback(null) {
+        try {
+            JSObject data = call.getData();
+            String metricName = call.getString("textMetricName");
+            String metricValue = call.getString("value");
+            JSObject attributes = call.getObject("attributes");
+            Map attribMap = getMap(attributes);
+            Log.i(TAG, "@logTextMetric with value : (" + metricName + "," + metricValue + ")");
+            CaMDOCallback cb = new CaMDOCallback(null) {
 
-            @Override
-            public void onError(int errorCode, Exception exception) {
-                call.error("Error in logTextMetric. Reason: " + errorCode, exception);
-            }
+                @Override
+                public void onError(int errorCode, Exception exception) {
+                    call.reject("Error in logTextMetric. Reason: " + errorCode, exception);
+                }
 
-            @Override
-            public void onSuccess(Bundle data) {
-                Log.i(TAG, "@logTextMetric done ");
-                call.resolve();
+                @Override
+                public void onSuccess(Bundle data) {
+                    Log.i(TAG, "@logTextMetric done ");
+                    call.resolve();
 
-            }
-        };
-        CaMDOIntegration.logTextMetric(metricName, metricValue, attribMap, cb);
+                }
+            };
+            CaMDOIntegration.logTextMetric(metricName, metricValue, attribMap, cb);
+        } catch (Exception e) {
+            call.reject("Generic Error in logTextMetric.", e);
+        }
+
 
     }
 
     @PluginMethod()
     public void logNumericMetric(PluginCall call) {
         Log.i(TAG, "@logNumericMetric ");
-        JSObject data = call.getData();
-        String metricName = data.getString("metricName");
-        String metricValue = data.getString("metricValue");
-        JSObject attributes = data.getJSObject("attributes");
-        Map attribMap = getMap(attributes);
-        Log.i(TAG, "@logNumericMetric with value : (" + metricName + "," + metricValue + ")");
-        CaMDOCallback cb = new CaMDOCallback(null) {
+        try {
 
-            @Override
-            public void onError(int errorCode, Exception exception) {
-                call.error("Error in logNumericMetric. Reason: " + errorCode, exception);
-            }
+            JSObject data = call.getData();
+            String metricName = call.getString("numericMetricName");
+            Double metricValue = call.getDouble("value");
+            JSObject attributes = call.getObject("attributes");
+            Map attribMap = getMap(attributes);
+            Log.i(TAG, "@logNumericMetric with value : (" + metricName + "," + metricValue + ")");
+            CaMDOCallback cb = new CaMDOCallback(null) {
 
-            @Override
-            public void onSuccess(Bundle data) {
-                Log.i(TAG, "@logNumericMetric done ");
-                call.resolve();
+                @Override
+                public void onError(int errorCode, Exception exception) {
+                    call.reject("Error in logNumericMetric. Reason: " + errorCode, exception);
+                }
 
-            }
-        };
-        CaMDOIntegration.logNumericMetric(metricName, Double.parseDouble(metricValue), attribMap, cb);
+                @Override
+                public void onSuccess(Bundle data) {
+                    Log.i(TAG, "@logNumericMetric done ");
+                    call.resolve();
+
+                }
+            };
+            CaMDOIntegration.logNumericMetric(metricName, metricValue, attribMap, cb);
+        } catch (Exception e) {
+            call.reject("Generic Error in logNumericMetric.", e);
+        }
 
     }
 
     @PluginMethod()
     public void uploadEvents(PluginCall call) {
         Log.i(TAG, "@uploadEvents ");
-        CaMDOCallback cb = new CaMDOCallback(null) {
+        try {
+            CaMDOCallback cb = new CaMDOCallback(null) {
 
-            @Override
-            public void onError(int errorCode, Exception exception) {
-                call.error("Error in uploadEvents. Reason: " + errorCode, exception);
-            }
+                @Override
+                public void onError(int errorCode, Exception exception) {
+                    call.reject("Error in uploadEvents. Reason: " + errorCode, exception);
+                }
 
-            @Override
-            public void onSuccess(Bundle data) {
-                Log.i(TAG, "@uploadEvents ");
-                call.resolve();
+                @Override
+                public void onSuccess(Bundle data) {
+                    Log.i(TAG, "@uploadEvents ");
+                    call.resolve();
 
-            }
-        };
-        CaMDOIntegration.uploadEvents(cb);
+                }
+            };
+            CaMDOIntegration.uploadEvents(cb);
+        } catch (Exception e) {
+            call.reject("Generic Error in uploadEvents.", e);
+        }
+
     }
 
     @PluginMethod()

@@ -477,6 +477,34 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
     }
 
     @PluginMethod()
+    public void induceNativeCrash(PluginCall call) {
+        Log.i(TAG, "@induceNativeCrash ");
+        String crashType = call.getString("crashType");
+        Log.i(TAG, "@induceNativeCrash with crashType" + crashType);
+        switch(crashType){
+            
+            case "AIOBE":{
+                String[] temp = new String[10];
+                temp[12].length();
+            }
+            break;
+
+            case "Error":{
+                throw new Error("Forced Error");
+            }
+
+            case "NPE":
+            default:
+            {
+                String temp = null;
+                temp.length();
+            };
+
+        }
+        call.resolve();
+    }
+
+    @PluginMethod()
     public void addListener(PluginCall call) {
         Log.i(TAG, "@addListener not implemented for Android ");
         call.unimplemented();

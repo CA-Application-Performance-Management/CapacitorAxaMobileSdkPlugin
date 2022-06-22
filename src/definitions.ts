@@ -375,6 +375,12 @@ export interface CapacitorAxaMobileSdkPlugin {
    */
    enableScreenShots(captureScreen: boolean): void;
 
+
+   /**
+    * This is a SDK Dev API
+    */
+   induceNativeCrash(options: {crashType: string}): void;
+
 }
 
 // Enums for SDK Errors

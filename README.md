@@ -119,7 +119,7 @@ CapacitorAxaMobileSdk.individualAPI({ argument1: value, argument2: value, ... })
 * [`enterPrivateZone()`](#enterprivatezone)
 * [`exitPrivateZone()`](#exitprivatezone)
 * [`isInPrivateZone()`](#isinprivatezone)
-* [`getAPMHeader()`](#getapmheader)
+* [`getAPMHeaders()`](#getapmheaders)
 * [`addToAPMHeader(...)`](#addtoapmheader)
 * [`setSSLPinningMode(...)`](#setsslpinningmode)
 * [`stopCurrentSession()`](#stopcurrentsession)
@@ -156,7 +156,7 @@ CapacitorAxaMobileSdk.individualAPI({ argument1: value, argument2: value, ... })
 ### enableSDK()
 
 ```typescript
-enableSDK() => void
+enableSDK() => Promise<void>
 ```
 
 Use this API to enable SDK.
@@ -169,7 +169,7 @@ only if you called disableSDK earlier.
 ### disableSDK()
 
 ```typescript
-disableSDK() => void
+disableSDK() => Promise<void>
 ```
 
 Use this API to disable the SDK.
@@ -260,7 +260,7 @@ Use this API to set a custom session attribute.
 ### enterPrivateZone()
 
 ```typescript
-enterPrivateZone() => void
+enterPrivateZone() => Promise<void>
 ```
 
 Use this API to stop collecting potentially sensitive data.
@@ -276,7 +276,7 @@ The following data is not collected when the app enters a private zone
 ### exitPrivateZone()
 
 ```typescript
-exitPrivateZone() => void
+exitPrivateZone() => Promise<void>
 ```
 
 Use this API to start collecting all data again
@@ -299,10 +299,10 @@ Returns a boolean value
 --------------------
 
 
-### getAPMHeader()
+### getAPMHeaders()
 
 ```typescript
-getAPMHeader() => Promise<{ value: object | null; }>
+getAPMHeaders() => Promise<{ value: object | null; }>
 ```
 
 Use this API to get the SDK computed APM header in key value format.
@@ -317,7 +317,7 @@ Returns an empty string if apm header cannot be computed
 ### addToAPMHeader(...)
 
 ```typescript
-addToAPMHeader(options: { data: string; }) => void
+addToAPMHeader(options: { data: string; }) => Promise<void>
 ```
 
 Use this API to add custom data to the SDK computed APM header.
@@ -332,7 +332,7 @@ Use this API to add custom data to the SDK computed APM header.
 ### setSSLPinningMode(...)
 
 ```typescript
-setSSLPinningMode(options: { pinningMode: CAMDOSSLPinningMode; pinnedValues: string[]; }) => void
+setSSLPinningMode(options: { pinningMode: CAMDOSSLPinningMode; pinnedValues: string[]; }) => Promise<void>
 ```
 
 Use this API to set the ssl pinning mode and array of pinned values.
@@ -348,7 +348,7 @@ This method expects array of values depending on the pinningMode
 ### stopCurrentSession()
 
 ```typescript
-stopCurrentSession() => void
+stopCurrentSession() => Promise<void>
 ```
 
 Use this API to stop the current session.
@@ -360,7 +360,7 @@ No data will be logged until the startSession API is called
 ### startNewSession()
 
 ```typescript
-startNewSession() => void
+startNewSession() => Promise<void>
 ```
 
 Use this API to start a new session.
@@ -372,7 +372,7 @@ If a session is already in progress, it will be stopped and new session is start
 ### stopCurrentAndStartNewSession()
 
 ```typescript
-stopCurrentAndStartNewSession() => void
+stopCurrentAndStartNewSession() => Promise<void>
 ```
 
 Convenience API to stop the current session in progress and start a new session
@@ -418,7 +418,7 @@ Use this API to stop a transaction with a specific name and an optional failure 
 ### setCustomerFeedback(...)
 
 ```typescript
-setCustomerFeedback(options: { feedback: string; }) => void
+setCustomerFeedback(options: { feedback: string; }) => Promise<void>
 ```
 
 Use this API to provide feedback from the user after a crash
@@ -433,7 +433,7 @@ Use this API to provide feedback from the user after a crash
 ### setCustomerLocation(...)
 
 ```typescript
-setCustomerLocation(options: { postalCode: string; countryCode: string; }) => void
+setCustomerLocation(options: { postalCode: string; countryCode: string; }) => Promise<void>
 ```
 
 Use this API to set Location of the Customer/User
@@ -483,7 +483,7 @@ Use this API to create a custom app flow with dynamic views
 ### ignoreView(...)
 
 ```typescript
-ignoreView(options: { viewName: string; }) => void
+ignoreView(options: { viewName: string; }) => Promise<void>
 ```
 
 Use this API to set the name of a view to be ignored
@@ -498,7 +498,7 @@ Use this API to set the name of a view to be ignored
 ### ignoreViews(...)
 
 ```typescript
-ignoreViews(options: { viewNames: string[]; }) => void
+ignoreViews(options: { viewNames: string[]; }) => Promise<void>
 ```
 
 Use this API to provide a list of view names to be ignored.
@@ -626,7 +626,7 @@ addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, listenerF
 ### logUIEvent(...)
 
 ```typescript
-logUIEvent(options: { eventType: CAMDOUIEventType; value: string; }) => void
+logUIEvent(options: { eventType: CAMDOUIEventType; value: string; }) => Promise<void>
 ```
 
 | Param         | Type                                                                                         |
@@ -639,7 +639,7 @@ logUIEvent(options: { eventType: CAMDOUIEventType; value: string; }) => void
 ### setNSURLSessionDelegate(...)
 
 ```typescript
-setNSURLSessionDelegate(options: { delegate: string; }) => void
+setNSURLSessionDelegate(options: { delegate: string; }) => Promise<void>
 ```
 
 Use this API to set your delegate instance to handle auth challenges.
@@ -655,7 +655,7 @@ Use it when using SDKUseNetworkProtocolSwizzling option
 ### setLocation(...)
 
 ```typescript
-setLocation(options: { latitude: number; longitude: number; }) => void
+setLocation(options: { latitude: number; longitude: number; }) => Promise<void>
 ```
 
 Use this API to set Geographic or GPS Location of the Customer
@@ -670,7 +670,7 @@ Use this API to set Geographic or GPS Location of the Customer
 ### enableScreenShots(...)
 
 ```typescript
-enableScreenShots(captureScreen: boolean) => void
+enableScreenShots(captureScreen: boolean) => Promise<void>
 ```
 
 Use this API to programmatically enable or disable automatic screen captures.

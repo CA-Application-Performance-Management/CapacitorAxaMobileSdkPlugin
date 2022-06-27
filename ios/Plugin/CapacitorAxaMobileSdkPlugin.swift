@@ -114,7 +114,7 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
         ])
     }
     
-    @objc func getAPMHeader(_ call: CAPPluginCall) {
+    @objc func getAPMHeaders(_ call: CAPPluginCall) {
         let apmHeader = CAMDOReporter.apmHeader()
         call.resolve([
             "value": apmHeader as Any

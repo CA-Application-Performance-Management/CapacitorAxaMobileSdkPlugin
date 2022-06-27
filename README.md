@@ -144,6 +144,7 @@ CapacitorAxaMobileSdk.individualAPI({ argument1: value, argument2: value, ... })
 * [`setNSURLSessionDelegate(...)`](#setnsurlsessiondelegate)
 * [`setLocation(...)`](#setlocation)
 * [`enableScreenShots(...)`](#enablescreenshots)
+* [`induceNativeCrash(...)`](#inducenativecrash)
 * [Interfaces](#interfaces)
 * [Enums](#enums)
 
@@ -677,6 +678,21 @@ Use this API to programmatically enable or disable automatic screen captures.
 | Param               | Type                 | Description                                                                                                                                                                                                               |
 | ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **`captureScreen`** | <code>boolean</code> | is a boolean value to enable/disable automatic screen captures. Normally the policy determines whether automatic screen captures are performed. Use this API to override the policy, or the current setting of this flag. |
+
+--------------------
+
+
+### induceNativeCrash(...)
+
+```typescript
+induceNativeCrash(options: { crashType: string; }) => void
+```
+
+This is a SDK Dev API
+
+| Param         | Type                                |
+| ------------- | ----------------------------------- |
+| **`options`** | <code>{ crashType: string; }</code> |
 
 --------------------
 

@@ -14,7 +14,7 @@ CAP_PLUGIN(CapacitorAxaMobileSdkPlugin, "CapacitorAxaMobileSdk",
            CAP_PLUGIN_METHOD(enterPrivateZone, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(exitPrivateZone, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(isInPrivateZone, CAPPluginReturnPromise);
-           CAP_PLUGIN_METHOD(getAPMHeader, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getAPMHeaders, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(addToAPMHeader, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setSSLPinningMode, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(stopCurrentSession, CAPPluginReturnPromise);

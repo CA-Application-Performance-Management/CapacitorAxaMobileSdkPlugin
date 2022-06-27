@@ -8,7 +8,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * only if you called disableSDK earlier.
    *
    */
-   enableSDK(): void;
+   enableSDK(): Promise<void>;
 
   /**
    * Use this API to disable the SDK.
@@ -16,7 +16,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * or user interaction.
    *
    */
-   disableSDK(): void;
+   disableSDK(): Promise<void>;
 
   /**
    * Use this API to determine if the SDK is enabled or not.
@@ -75,13 +75,13 @@ export interface CapacitorAxaMobileSdkPlugin {
    *    - Value in the text entry fields
    *
    */
-   enterPrivateZone(): void;
+   enterPrivateZone(): Promise<void>;
 
 
   /**
    * Use this API to start collecting all data again
    */
-   exitPrivateZone(): void;
+   exitPrivateZone(): Promise<void>;
 
   
   /**
@@ -99,7 +99,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * Returns an empty string if apm header cannot be computed
    *
    */
-   getAPMHeader(): Promise<{ value: object | null }>;
+   getAPMHeaders(): Promise<{ value: object | null }>;
 
 
   /**
@@ -108,7 +108,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * data will be appended to the APM header separated by a semicolon (;).
    *
    */
-   addToAPMHeader(options: {data: string}): void;
+   addToAPMHeader(options: {data: string}): Promise<void>;
 
 
   /**
@@ -129,7 +129,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * CAMDOSSLPinningModePublicKeyHash
    *          - array of PublicKeyHashValues
    */
-   setSSLPinningMode(options: {pinningMode: CAMDOSSLPinningMode, pinnedValues: string[] }): void;
+   setSSLPinningMode(options: {pinningMode: CAMDOSSLPinningMode, pinnedValues: string[] }): Promise<void>;
 
 
   /**
@@ -137,7 +137,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * No data will be logged until the startSession API is called
    *
    */
-   stopCurrentSession(): void;
+   stopCurrentSession(): Promise<void>;
 
 
   /**
@@ -145,14 +145,14 @@ export interface CapacitorAxaMobileSdkPlugin {
    * If a session is already in progress, it will be stopped and new session is started
    *
    */
-   startNewSession(): void;
+   startNewSession(): Promise<void>;
 
 
   /**
    * Convenience API to stop the current session in progress and start a new session
    * Equivalent to calling stopCurrentSession() and startNewSession()
    */
-   stopCurrentAndStartNewSession(): void;
+   stopCurrentAndStartNewSession(): Promise<void>;
 
 
   /**
@@ -194,7 +194,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * and collect the feedback from the user while handling the notification
    *
    */
-   setCustomerFeedback(options: {feedback: string}): void;
+   setCustomerFeedback(options: {feedback: string}): Promise<void>;
 
 
   /**
@@ -205,7 +205,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * @param countryCode is the two letter international code for the country
    *
    */
-   setCustomerLocation(options: {postalCode: string, countryCode: string}): void;
+   setCustomerLocation(options: {postalCode: string, countryCode: string}): Promise<void>;
 
   /**
    * Use this API to send a screen shot of the current screen
@@ -250,7 +250,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * Screenshots and transitions of the views that are in ignore list are not captured
    *
    */
-   ignoreView(options: {viewName: string}): void;
+   ignoreView(options: {viewName: string}): Promise<void>;
 
 
   /**
@@ -260,7 +260,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * ignore list are not captured
    *
    */
-   ignoreViews(options: {viewNames: string[] }): void; 
+   ignoreViews(options: {viewNames: string[] }): Promise<void>; 
 
 
   /**
@@ -343,7 +343,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    addListener(eventName: CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, listenerFunc: () => void): Promise<PluginListenerHandle> & PluginListenerHandle;
 
 
-   logUIEvent(options: {eventType: CAMDOUIEventType, value: string} ): void;
+   logUIEvent(options: {eventType: CAMDOUIEventType, value: string} ): Promise<void>;
 
    /**
    * Use this API to set your delegate instance to handle auth challenges.
@@ -352,7 +352,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * @param delegate is an iOS native object or module which responds to the  NSURLSessionDelegate protocols.
    *
    */
-   setNSURLSessionDelegate(options:{delegate: string}): void;
+   setNSURLSessionDelegate(options:{delegate: string}): Promise<void>;
 
 
   /**
@@ -362,7 +362,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * @param logitude is the geographic longitude from -180.0 to 180.0 degrees
    *
    */
-   setLocation(options: {latitude: number, longitude: number}): void;
+   setLocation(options: {latitude: number, longitude: number}): Promise<void>;
 
    /**
    * Use this API to programmatically enable or disable automatic screen captures.
@@ -373,7 +373,7 @@ export interface CapacitorAxaMobileSdkPlugin {
    * Use this API to override the policy, or the current setting of this flag.
    *
    */
-   enableScreenShots(captureScreen: boolean): void;
+   enableScreenShots(captureScreen: boolean): Promise<void>;
 
 
    /**

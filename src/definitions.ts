@@ -410,14 +410,21 @@ export enum CAMDOSDKImageQualityType {
 
 export enum CAMDOUIEventType {
   CAMAA_EVENT_BUTTON_PRESSED = 'button_pressed',
+  CAMAA_AI_START = 'ai_start',
+  CAMAA_AI_END = 'ai_end',
+  //iOS Specific UI Events
   CAMAA_EVENT_DATE_PICKER_VIEW_SELECTED = 'date_picker_selected',
   CAMAA_EVENT_PAGE_CHANGED= 'page_changed',
   CAMAA_EVENT_SEGMENTED_CONTROL_PRESSED = 'segment_control_pressed',
   CAMAA_EVENT_SLIDER_MOVED = 'slider_moved',
   CAMAA_EVENT_STEPPER_PRESSED = 'stepper_pressed',
   CAMAA_EVENT_SWITCH_PRESSED = 'switch_pressed',
-  CAMAA_AI_START = 'ai_start',
-  CAMAA_AI_END = 'ai_end'
+  //Android Specific UI Events
+  CAMAA_EVENT_RADIO_BUTTON_PRESS = "radio_button_pressed",
+  CAMAA_EVENT_CHECK_BOX_PRESS = "check_box_pressed",
+  CAMAA_EVENT_SPINNER_ITEM_SELECTED = "spinner_item_selected",
+  CAMAA_EVENT_TOGGLE_PRESS = "switch_pressed",
+  CAMAA_EVENT_UNSUPPORTED = "unknow_action"
 }
 
 export enum CAMAA_NOTIFICATION_TYPE {

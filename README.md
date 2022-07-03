@@ -757,14 +757,19 @@ This is a SDK Dev API
 | Members                                     | Value                                  |
 | ------------------------------------------- | -------------------------------------- |
 | **`CAMAA_EVENT_BUTTON_PRESSED`**            | <code>'button_pressed'</code>          |
+| **`CAMAA_AI_START`**                        | <code>'ai_start'</code>                |
+| **`CAMAA_AI_END`**                          | <code>'ai_end'</code>                  |
 | **`CAMAA_EVENT_DATE_PICKER_VIEW_SELECTED`** | <code>'date_picker_selected'</code>    |
 | **`CAMAA_EVENT_PAGE_CHANGED`**              | <code>'page_changed'</code>            |
 | **`CAMAA_EVENT_SEGMENTED_CONTROL_PRESSED`** | <code>'segment_control_pressed'</code> |
 | **`CAMAA_EVENT_SLIDER_MOVED`**              | <code>'slider_moved'</code>            |
 | **`CAMAA_EVENT_STEPPER_PRESSED`**           | <code>'stepper_pressed'</code>         |
 | **`CAMAA_EVENT_SWITCH_PRESSED`**            | <code>'switch_pressed'</code>          |
-| **`CAMAA_AI_START`**                        | <code>'ai_start'</code>                |
-| **`CAMAA_AI_END`**                          | <code>'ai_end'</code>                  |
+| **`CAMAA_EVENT_RADIO_BUTTON_PRESS`**        | <code>"radio_button_pressed"</code>    |
+| **`CAMAA_EVENT_CHECK_BOX_PRESS`**           | <code>"check_box_pressed"</code>       |
+| **`CAMAA_EVENT_SPINNER_ITEM_SELECTED`**     | <code>"spinner_item_selected"</code>   |
+| **`CAMAA_EVENT_TOGGLE_PRESS`**              | <code>"switch_pressed"</code>          |
+| **`CAMAA_EVENT_UNSUPPORTED`**               | <code>"unknow_action"</code>           |
 
 </docgen-api>
 

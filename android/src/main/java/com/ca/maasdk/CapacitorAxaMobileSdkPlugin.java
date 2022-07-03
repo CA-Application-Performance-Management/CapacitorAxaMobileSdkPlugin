@@ -512,8 +512,17 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
 
     @PluginMethod()
     public void logUIEvent(PluginCall call) {
-        Log.i(TAG, "@ logUIEvent not implemented for Android ");
-        call.unimplemented();
+        Log.i(TAG, "@ logUIEvent ");
+        try {
+            String eventType = call.getString("eventType");
+            String eventName = call.getString("value");
+            Log.i(TAG, "@ logUIEvent eventType: "+eventType+", eventName: "+eventName);
+            CaMDOIntegration.logUIEvent(eventType,eventName);
+            call.resolve();    
+        } catch (Exception e) {
+            call.reject("Unable to log UI Event ", e);
+        }
+        
     }
 
     @PluginMethod()

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.ca.integration.CaMDOCallback;
 import com.ca.mdo.CALog;
+import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -14,6 +15,7 @@ import com.ca.android.app.CaMDOIntegration;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -141,17 +143,58 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
         call.resolve();
     }
 
-    /**
-     * Use this API to set the ssl pinning mode and array of pinned values.
-     *
-     * @param pinningMode
-     * @param pinnedValues
-     */
-
     @PluginMethod()
     public void setSSLPinningMode(PluginCall call) {
         Log.i(TAG, "@setSSLPinningMode ");
-        call.unimplemented();
+        try {
+            String pinningModeType = call.getString("pinningMode");
+            JSArray pinnedValues = call.getArray("pinnedValues");
+            Log.i(TAG, "@setSSLPinningMode pinningModeType: "+pinningModeType+", pinnedValues: "+pinnedValues);
+            String pinningMode = "none";
+            switch(pinningModeType){
+                
+                case "CAMDOSSLPinningModePublicKey":
+                    pinningMode = "pk";
+                break;
+
+                case "CAMDOSSLPinningModeCertificate":
+                    pinningMode = "certificate";
+                break;
+
+                case "CAMDOSSLPinningModeFingerPrintSHA1Signature":
+                    pinningMode = "sha1signature";
+                break;
+
+                case "CAMDOSSLPinningModePublicKeyHash":
+                    pinningMode = "hash";
+                break;
+
+                default:
+                case "CAMDOSSLPinningModeNone":
+                    pinningMode = "none";
+                break;
+
+            }
+            ArrayList<byte[]> pinnedValuesL = new ArrayList<byte[]>();
+            if(pinnedValues!=null){
+                Log.i(TAG, "@setSSLPinningMode pinnedValues count: "+pinnedValues.length());
+                for (int i = 0; i < pinnedValues.length(); ++i) {
+                    pinnedValuesL.add( (""+pinnedValues.get(i)).getBytes());
+                   }
+            }
+
+            if(pinnedValuesL.size()>0){
+                CaMDOIntegration.setSSLPinningMode(null, pinningMode,pinnedValuesL);
+                call.resolve();
+            }else{
+                call.reject("Invalid SSL pinning data ");
+            }
+
+            
+        } catch (Exception e) {
+            call.reject("Error in SSL pinning  ", e);
+        }
+        
     }
 
     @PluginMethod()

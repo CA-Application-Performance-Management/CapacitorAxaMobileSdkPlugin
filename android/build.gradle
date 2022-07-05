@@ -58,7 +58,7 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
-    implementation 'com.ca.dxapm:sdk-core:2022.7.0.0-alpha@aar'
+    implementation 'com.ca.dxapm:sdk-core:2022.7.0.1-alpha@aar'
     //implementation files('../cadxapmsdk/ca-maa-android-sdk-release.aar')
     
 }

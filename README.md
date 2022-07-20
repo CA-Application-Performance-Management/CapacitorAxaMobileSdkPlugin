@@ -20,6 +20,13 @@ npm install capacitor-axa-mobile-sdk-plugin
 npx cap sync
 ```
 
+## Prerequisite: (For iOS only) 
+Run the following command to install the **Ruby Gem xcodeproj** to make the **CAMDOReporter.h** file as a public header of the AXA Capacitor plugin target in your application:
+
+```bash 
+sudo gem install xcodeproj
+```
+
 ## Initialising the SDK in your Source code
 
 <details>

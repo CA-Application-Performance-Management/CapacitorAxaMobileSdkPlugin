@@ -281,7 +281,7 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
     @PluginMethod()
     public void setCustomerFeedback(PluginCall call) {
         Log.i(TAG, "@setUserFeedback ");
-        String feedback = call.getString("value");
+        String feedback = call.getString("feedback");
         Log.i(TAG, "@setUserFeedback with value : " + feedback);
         CaMDOIntegration.setUserFeedback(feedback);
         Log.i(TAG, "@setUserFeedback done ");
@@ -291,7 +291,7 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
     @PluginMethod()
     public void setCrashFeedback(PluginCall call) {
         Log.i(TAG, "@setCrashFeedback ");
-        String feedback = call.getString("value");
+        String feedback = call.getString("feedback");
         Log.i(TAG, "@setCrashFeedback with value : " + feedback);
         CaMDOIntegration.setCrashFeedback(feedback);
         Log.i(TAG, "@setCrashFeedback done ");

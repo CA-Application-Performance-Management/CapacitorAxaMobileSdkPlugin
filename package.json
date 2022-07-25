@@ -1,7 +1,7 @@
 {
   "name": "capacitor-axa-mobile-sdk-plugin-xcframework",
   "title": "Capacitor AXA Mobile Sdk",
-  "version": "0.0.1-beta.1.6",
+  "version": "0.0.1-beta.1.7",
   "description": "CA App Experience Analytic native SDK's capacitor supplement for using custom metrics",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",

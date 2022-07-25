@@ -13,21 +13,24 @@ Read about [DX App Experience Analytics](https://www.broadcom.com/info/aiops/app
 
 Check out our [documentation](https://techdocs.broadcom.com/content/broadcom/techdocs/us/en/ca-enterprise-software/it-operations-management/app-experience-analytics-saas/SaaS/reference/data-collected-by-ca-app-experience-analytics-sdk.html) for more information about the features that the App Experience Analytics SDK collects from your app.
 
-## Prerequisite
+## Prerequisite(For iOS only)
 
--  Register your application with AXA. For more information, see the [Manage Apps](https://techdocs-author.broadcom.com/us/en/ca-enterprise-software/it-operations-management/app-experience-analytics-saas/SaaS/using/manage-apps.html) section.
+Run the following command to install the **Ruby Gem xcodeproj** to make the **CAMDOReporter.h** file as a public header of the AXA Capacitor plugin target in your application:
+```bash 
+sudo gem install xcodeproj
+```
 
--  Download the camdo.plist file.
-Click MANAGE APPS in the DX App Experience Analytics Administration Console.
-Select the application you want to wrap and then under HYBRID , click Capacitor.
-Download the <appname>_camdo.plist file.
+## Register Your Application
 
--  (For iOS only). Run the following command to install the **Ruby Gem xcodeproj** to make the **CAMDOReporter.h** file as a public header of the AXA Capacitor plugin target in your application:
-    ```bash 
-    sudo gem install xcodeproj
-    ```
+Register your application with AXA. For more information, see the [Manage Apps](https://techdocs-author.broadcom.com/us/en/ca-enterprise-software/it-operations-management/app-experience-analytics-saas/SaaS/using/manage-apps.html) section.
 
 ## Integrate SDK
+
+-  Download the **camdo.plist** file.
+
+    1. Click **MANAGE APPS** in the DX App Experience Analytics Administration Console.
+    2. Select the application you want to wrap and then under **HYBRID** , click **Capacitor**.
+    3. Download the **<appname>_camdo.plist** file.
 
 - Install Plugin
     ```bash
@@ -48,34 +51,31 @@ Download the <appname>_camdo.plist file.
         import { NavigationEnd, Router } from '@angular/router';
         import { CapacitorAxaMobileSdk } from 'capacitor-axa-mobile-sdk-plugin-xcframework';
 
-
         export class AppComponent {
-        constructor(private router: Router) {
-            this.router.events.subscribe((e) => {
-                if (e instanceof NavigationEnd) {
-                    setTimeout(() => {
-                    CapacitorAxaMobileSdk.viewLoaded({viewName:
-                        e.urlAfterRedirects, loadTime: 0.25, screenShot: true}).then((result) => {    
-                    });
-                    }, 250);
-                }
-            });
-        }
+            constructor(private router: Router) {
+                this.router.events.subscribe((e) => {
+                    if (e instanceof NavigationEnd) {
+                        setTimeout(() => {
+                        CapacitorAxaMobileSdk.viewLoaded({viewName:
+                            e.urlAfterRedirects, loadTime: 0.25, screenShot: true}).then((result) => {    
+                        });
+                        }, 250);
+                    }
+                });
+            }
         }
         ```
 
     - Initialising the SDK in your Source code
-        <blockquote>
-        <details>
-        <summary> Swift </summary>
+
+    <blockquote>
+    <details>
+    <summary> Swift </summary>
 
         1. Add a header file with the file name format as `<app_name>-Bridging-header.h`.
-                
-        2. Add the import header `#import "CAMDOReporter.h"` to your `<app_name>-Bridging-header.h` file. 
-                
+        2. Add the import header `#import "CAMDOReporter.h"` to your `<app_name>-Bridging-header.h` file.      
         3. Add the `<app_name>-Bridging-header.h` file to Swift Compiler - Code Generation section in the Build Settings.
-                `<name of the project>/<app_name>-Bridging-header.h`
-                
+        `<name of the project>/<app_name>-Bridging-header.h`    
         4. Initialize the CAMobileAppAnalytics sdk in `didFinishLaunchingWithOptions` method
             ```sh
             func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -87,12 +87,12 @@ Download the <appname>_camdo.plist file.
             }
             ```
         5. Drag & Drop the downloaded `xxx_camdo.plist` file into the Supporting files
-        </details>
-        </blockquote>
+    </details>
+    </blockquote>
 
-        <blockquote>    
-        <details>
-        <summary> Objective C </summary>
+    <blockquote>    
+    <details>
+    <summary> Objective C </summary>
 
         1. Add the import header `#import "CAMDOReporter.h"` to your AppDelegate.m file
         2. Initialize the CAMobileAppAnalytics sdk in `didFinishLaunchingWithOptions:` method 
@@ -104,55 +104,56 @@ Download the <appname>_camdo.plist file.
             }
             ```
         3. Drag & Drop the downloaded `xxx_camdo.plist` file into the Supporting files
-        </details>
-        </blockquote>
-     </details>
-     </blockquote>
+
+    </details>
+    </blockquote>
+
+    </details>
+    </blockquote>
 
     <blockquote>
     <details>
     <summary> Android </summary>
 
-    1. Go to the android folder and add packages.broadcom.com as a repository in the project build.gradle file
+        1. Go to the android folder and add packages.broadcom.com as a repository in the project build.gradle file
 
-    ```bash
-    buildscript {
-        
-                repositories {
-                    google()
-                    ..
-                    ..
-                    maven {
-                        url 'https://packages.broadcom.com/apm-agents'
-                    }
+        ```bash
+        buildscript {
+            repositories {
+                google()
+                ..
+                ..
+                maven {
+                    url 'https://packages.broadcom.com/apm-agents'
                 }
+            }
             dependencies {
                 .. 
                 .. 
                 classpath 'com.ca.dxapm:sdk-gradle-plugin:2022.6.0.0'
             }
-    }
-
-    allprojects {
-        repositories {
-                    google()
-                    ..
-                    ..
-                    maven {
-                        url 'https://packages.broadcom.com/apm-agents'
-                    }
         }
-    }
-    ```
 
-    2. Go to the android/app folder and add the following to the app's build.gradle file:
+        allprojects {
+            repositories {
+                google()
+                ..
+                ..
+                maven {
+                    url 'https://packages.broadcom.com/apm-agents'
+                }
+            }
+        }
+        ```
 
-    ```bash
-    apply plugin: 'com.ca.dxapm.sdk.gradle.plugin'
-    cadxapmsdk {
-        plist = "path to camdo.plist"
-    }
-    ```
+        2. Go to the android/app folder and add the following to the app's build.gradle file:
+
+        ```bash
+        apply plugin: 'com.ca.dxapm.sdk.gradle.plugin'
+        cadxapmsdk {
+            plist = "path to camdo.plist"
+        }
+        ```
     </details>
     </blockquote>
 

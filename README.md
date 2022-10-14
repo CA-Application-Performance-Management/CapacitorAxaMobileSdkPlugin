@@ -35,9 +35,10 @@ Register your application with AXA. For more information, see the [Manage Apps](
 - Install Plugin
     ```bash
     npm install capacitor-axa-mobile-sdk-plugin
-    cd ios/App && pod update 'CAMobileAppAnalytics'; cd ../..
     npx cap sync
     ```
+    >**Note:** Goto **ios/App** folder and Run **pod update 'CAMobileAppAnalytics'** to get the latest version of pod.
+
 - Set up your platform
 
     <blockquote>
@@ -168,9 +169,10 @@ Register your application with AXA. For more information, see the [Manage Apps](
 
 ```bash
 npm upgrade capacitor-axa-mobile-sdk-plugin
-cd ios/App && pod update 'CAMobileAppAnalytics'; cd ../..
 npx cap sync
 ```
+>**Note:** Goto **ios/App** folder and Run **pod update 'CAMobileAppAnalytics'** to get the latest version of pod.
+
 
 ## Usage
 

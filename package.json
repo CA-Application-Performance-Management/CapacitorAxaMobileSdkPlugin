@@ -1,7 +1,7 @@
 {
   "name": "capacitor-axa-mobile-sdk-plugin-xcframework",
   "title": "Capacitor AXA Mobile Sdk",
-  "version": "2023.7.2",
+  "version": "2023.9.1",
   "description": "CA App Experience Analytic native SDK's capacitor supplement for using custom metrics",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -51,7 +51,7 @@
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
     "swiftlint": "node-swiftlint",
     "docgen": "docgen --api CapacitorAxaMobileSdkPlugin --output-readme README.md --output-json dist/docs.json",
-    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.js",
+    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build"

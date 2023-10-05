@@ -5,7 +5,6 @@
 ## Platforms Supported
 
 -  iOS
--  Android
 
 ## Getting started
 
@@ -119,50 +118,6 @@ Register your application with AXA. For more information, see the [Manage Apps](
     </details>
     </blockquote>
 
-    <blockquote>
-    <details>
-    <summary> Android </summary>
-
-        1. Go to the android folder and add packages.broadcom.com as a repository in the project build.gradle file
-        ```bash
-            buildscript {
-                repositories {
-                    google()
-                    ..
-                    ..
-                    maven {
-                        url 'https://packages.broadcom.com/apm-agents'
-                    }
-                }
-                dependencies {
-                    .. 
-                    .. 
-                    classpath 'com.ca.dxapm:sdk-gradle-plugin:2022.6.0.0'
-                }
-            }
-
-            allprojects {
-                repositories {
-                    google()
-                    ..
-                    ..
-                    maven {
-                        url 'https://packages.broadcom.com/apm-agents'
-                    }
-                }
-            }
-        ```
-
-        2. Go to the android/app folder and add the following to the app's build.gradle file:
-        ```bash
-        apply plugin: 'com.ca.dxapm.sdk.gradle.plugin'
-        cadxapmsdk {
-            plist = "path to camdo.plist"
-        }
-        ```
-        
-    </blockquote>
-    </details>
 
 
 ## Updation

@@ -161,20 +161,7 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
             return
         }
         
-        let serviceName = call.getString("serviceName")
-        if serviceName != nil {
-            CAMDOReporter.startApplicationTransaction(withName: transactionName, service: serviceName) { completed, error in
-                
-                var errorStr: String? = nil
-                if error != nil {
-                    errorStr = self.CAMAAErrorString(error: error! as NSError)
-                }
-                call.resolve([
-                    "completed": completed,
-                    "error": errorStr as Any
-                ])
-            }
-        } else {
+        guard let serviceName = call.getString("serviceName"), !serviceName.isEmpty else {
             CAMDOReporter.startApplicationTransaction(withName: transactionName) { completed, error in
                 var errorStr: String? = nil
                 if error != nil {
@@ -185,6 +172,18 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
                     "error": errorStr as Any
                 ])
             }
+            return
+        }
+        CAMDOReporter.startApplicationTransaction(withName: transactionName, service: serviceName) { completed, error in
+            
+            var errorStr: String? = nil
+            if error != nil {
+                errorStr = self.CAMAAErrorString(error: error! as NSError)
+            }
+            call.resolve([
+                "completed": completed,
+                "error": errorStr as Any
+            ])
         }
     }
     
@@ -196,19 +195,7 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
             return
         }
         
-        let failure = call.getString("failure")
-        if failure != nil {
-            CAMDOReporter.stopApplicationTransaction(withName: transactionName, failure: failure) { completed, error in
-                var errorStr: String? = nil
-                if error != nil {
-                    errorStr = self.CAMAAErrorString(error: error! as NSError)
-                }
-                call.resolve([
-                    "completed": completed,
-                    "error": errorStr as Any
-                ])
-            }
-        } else {
+        guard let failure = call.getString("failure"), !failure.isEmpty else {
             CAMDOReporter.stopApplicationTransaction(withName: transactionName) { completed, error in
                 var errorStr: String? = nil
                 if error != nil {
@@ -219,6 +206,17 @@ public class CapacitorAxaMobileSdkPlugin: CAPPlugin {
                     "error": errorStr as Any
                 ])
             }
+            return
+        }
+        CAMDOReporter.stopApplicationTransaction(withName: transactionName, failure: failure) { completed, error in
+            var errorStr: String? = nil
+            if error != nil {
+                errorStr = self.CAMAAErrorString(error: error! as NSError)
+            }
+            call.resolve([
+                "completed": completed,
+                "error": errorStr as Any
+            ])
         }
     }
     

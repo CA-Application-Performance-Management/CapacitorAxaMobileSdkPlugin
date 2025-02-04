@@ -3,6 +3,7 @@
 **DX AXA Mobile Sdk** is a modern, well-supported, and cross-platform sdk for App Experience Analytics that provides deep insights into the performance, user experience, crash, and log analytics of apps. This plugin, helps applications using Capacitor as the Native bridge to collect and fine tune custome metrics.
 
 ## Versioning
+- Capacitor 7 support starts from 25.2.2 release
 - Capacitor 6 support starts from 24.7.2 release
 - Use previous versions for below Capacitor 6
 
@@ -230,8 +231,8 @@ CapacitorAxaMobileSdk.individualAPI({ argument1: value, argument2: value, ... })
 * [`logTextMetric(...)`](#logtextmetric)
 * [`logNumericMetric(...)`](#lognumericmetric)
 * [`uploadEvents()`](#uploadevents)
-* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, ...)`](#addlistenercamaa_notification_typecamaa_crash_occurred)
-* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, ...)`](#addlistenercamaa_notification_typecamaa_upload_initiated)
+* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, ...)`](#addlistenercamaa_notification_typecamaa_crash_occurred-)
+* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, ...)`](#addlistenercamaa_notification_typecamaa_upload_initiated-)
 * [`logUIEvent(...)`](#loguievent)
 * [`setNSURLSessionDelegate(...)`](#setnsurlsessiondelegate)
 * [`setLocation(...)`](#setlocation)

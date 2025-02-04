@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.homepage = package['repository']['url']
   s.author = package['author']
-  s.ios.deployment_target  = '12.0'
+  s.ios.deployment_target = '12.0'
   s.swift_version = '5.1'
 
   s.source = { :git => package['repository']['url'], :tag => s.version.to_s }

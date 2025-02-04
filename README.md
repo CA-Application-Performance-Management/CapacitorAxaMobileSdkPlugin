@@ -3,6 +3,7 @@
 **Axa Mobile Sdk** is a modern, well-supported, and cross-platform sdk for App Experience Analytics that provides deep insights into the performance, user experience, crash, and log analytics of apps. This plugin, helps applications using Capacitor as the Native bridge to collect and fine tune custome metrics.
 
 ## Versioning
+- Capacitor 7 support starts from 25.2.2 release
 - Capacitor 6 support starts from 24.7.2 release
 - Use previous versions for below Capacitor 6
 

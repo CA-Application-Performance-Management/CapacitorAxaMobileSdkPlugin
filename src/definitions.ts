@@ -346,6 +346,19 @@ export interface CapacitorAxaMobileSdkPlugin {
    logUIEvent(options: {eventType: CAMDOUIEventType, value: string} ): Promise<void>;
 
    /**
+   * Use this API to log handled exception captured in try-catch blocks
+   *
+   * @param name is a string to indicate a error name 
+   * @param message is a string to indicate a error message
+   * @param stacktrace is a string to indicate a stacktrace
+   * 
+   * Expected input from JavaScript:
+   * CapacitorAxaMobileSdk.logHandledException({ name: String(error.name), message: String(error.message), stacktrace: String(error.stack)});
+   *
+   */
+   logHandledException(options: { name: string; message: string; stacktrace: string }): Promise<void>;
+
+   /**
    * Use this API to set your delegate instance to handle auth challenges.
    * Use it when using SDKUseNetworkProtocolSwizzling option
    *

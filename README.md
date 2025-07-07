@@ -238,6 +238,7 @@ CapacitorAxaMobileSdk.individualAPI({ argument1: value, argument2: value, ... })
 * [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, ...)`](#addlistenercamaa_notification_typecamaa_crash_occurred)
 * [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, ...)`](#addlistenercamaa_notification_typecamaa_upload_initiated)
 * [`logUIEvent(...)`](#loguievent)
+* [`logHandledException(...)`](#loghandledexception)
 * [`setNSURLSessionDelegate(...)`](#setnsurlsessiondelegate)
 * [`setLocation(...)`](#setlocation)
 * [`enableScreenShots(...)`](#enablescreenshots)
@@ -729,6 +730,21 @@ logUIEvent(options: { eventType: CAMDOUIEventType; value: string; }) => Promise<
 | Param         | Type                                                                                         |
 | ------------- | -------------------------------------------------------------------------------------------- |
 | **`options`** | <code>{ eventType: <a href="#camdouieventtype">CAMDOUIEventType</a>; value: string; }</code> |
+
+--------------------
+
+
+### logHandledException(...)
+
+```typescript
+logHandledException(options: { name: string; message: string; stacktrace: string; }) => Promise<void>
+```
+
+Use this API to log handled exception captured in try-catch blocks
+
+| Param         | Type                                                                |
+| ------------- | ------------------------------------------------------------------- |
+| **`options`** | <code>{ name: string; message: string; stacktrace: string; }</code> |
 
 --------------------
 

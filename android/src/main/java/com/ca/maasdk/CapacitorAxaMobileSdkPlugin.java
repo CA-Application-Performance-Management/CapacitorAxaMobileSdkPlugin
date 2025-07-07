@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 @CapacitorPlugin(name = "CapacitorAxaMobileSdk")
 public class CapacitorAxaMobileSdkPlugin extends Plugin {
 
@@ -566,6 +569,64 @@ public class CapacitorAxaMobileSdkPlugin extends Plugin {
             call.reject("Unable to log UI Event ", e);
         }
         
+    }
+
+    @PluginMethod
+    public void logHandledException(PluginCall call) {
+        Log.i(TAG, "@ logHandledException");
+        try {
+            String name = call.getString("name");
+            String message = call.getString("message");
+            String stacktrace = call.getString("stacktrace");
+            // Default values
+            String methodName = "UnknownMethod";
+            String className = "UnknownClass";
+            int line = -1;
+            // Return early if stacktrace is null or empty
+            if (stacktrace == null || stacktrace.trim().isEmpty()) {
+                call.reject("Missing or empty 'stacktrace'");
+                return;
+            }
+
+            Log.i(TAG, "@ logHandledException stacktrace: "+stacktrace);
+
+            if (stacktrace != null && !stacktrace.trim().isEmpty()) {
+                String[] stackLines = stacktrace.split("\n");
+
+                for (String lineEntry : stackLines) {
+                    // Match format like: at someFunc (file.js:10:5)
+                    Pattern pattern = Pattern.compile("at\\s+(.*?)\\s+\\((.*?):(\\d+):(\\d+)\\)");
+                    Matcher matcher = pattern.matcher(lineEntry.trim());
+
+                    if (matcher.find()) {
+                        methodName = matcher.group(1);    // e.g., someFunc
+                        className = matcher.group(2);          // e.g., file.js
+                        line = Integer.parseInt(matcher.group(3));  // line number
+                        break; // Only take the top stack frame
+                    }
+                }
+            }
+
+            String fullMessage = (name != null ? name : "Error") + ": " + (message != null ? message : "Unknown message") + "\n" + stacktrace;
+
+            JSObject errorInfo = new JSObject();
+            errorInfo.put("Origin", "javascript");  
+            errorInfo.put("Type",name);
+            errorInfo.put("Message",message);
+            errorInfo.put("Stacktrace",stacktrace);
+            errorInfo.put("Class",className);
+            errorInfo.put("Method", methodName);
+            errorInfo.put("Line", line);
+            String jsonErrorInfo = errorInfo.toString(); // 2 = indentation level
+
+            Throwable cause = new Throwable(jsonErrorInfo);
+            Exception wrapped = new Exception(fullMessage, cause);
+            CaMDOIntegration.logHandledException(wrapped);
+
+            call.resolve();
+        } catch (Exception ex) {
+            call.reject("Failed to log handled exception", ex);
+        }
     }
 
     @PluginMethod()

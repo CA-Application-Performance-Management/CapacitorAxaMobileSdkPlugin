@@ -31,49 +31,49 @@ Register your application with AXA. For more information, see the [Manage Apps](
 
 ## Integrate SDK
 
--  Download the **camdo.plist** file.
+1.  Download the **camdo.plist** file.
 
     1. Click **MANAGE APPS** in the DX App Experience Analytics Administration Console.
     2. Select the application you want to wrap and then under **HYBRID** , click **Capacitor**.
     3. Download the **<appname>_camdo.plist** file.
 
-- Install Plugin
+2. Install Plugin
     ```bash
     npm install capacitor-axa-mobile-sdk-plugin
     npx cap sync
     ```
     >**Note:** Goto **ios/App** folder and Run **pod update 'CAMobileAppAnalytics'** to get the latest version of pod.
 
-- Set up your platform
+3. Set up your platform
 
     <blockquote>
     <details>
     <summary> iOS </summary>
 
-    - Integrate SDK
+    1. Integrate SDK
         1. Go to the ios/App folder and open the workspace
         2. Drag and drop the downloaded xxx_camdo.plist file into the project target.
         3. Add the following code in the App Component class to subscribe to the Ionic router change event:
-        ```bash
-        import { NavigationEnd, Router } from '@angular/router';
-        import { CapacitorAxaMobileSdk } from 'capacitor-axa-mobile-sdk-plugin';
+            ```bash
+            import { NavigationEnd, Router } from '@angular/router';
+            import { CapacitorAxaMobileSdk } from 'capacitor-axa-mobile-sdk-plugin';
 
-        export class AppComponent {
-            constructor(private router: Router) {
-                this.router.events.subscribe((e) => {
-                    if (e instanceof NavigationEnd) {
-                        setTimeout(() => {
-                        CapacitorAxaMobileSdk.viewLoaded({viewName:
-                            e.urlAfterRedirects, loadTime: 0.25, screenShot: true}).then((result) => {    
-                        });
-                        }, 250);
-                    }
-                });
+            export class AppComponent {
+                constructor(private router: Router) {
+                    this.router.events.subscribe((e) => {
+                        if (e instanceof NavigationEnd) {
+                            setTimeout(() => {
+                            CapacitorAxaMobileSdk.viewLoaded({viewName:
+                                e.urlAfterRedirects, loadTime: 0.25, screenShot: true}).then((result) => {    
+                            });
+                            }, 250);
+                        }
+                    });
+                }
             }
-        }
-        ```
+            ```
 
-    - Initialising the SDK in your Source code
+    2. Initialising the SDK in your Source code
 
     <blockquote>
     <details>
@@ -87,15 +87,15 @@ Register your application with AXA. For more information, see the [Manage Apps](
             `<name of the project>/<app_name>-Bridging-header.h`
             
         4. Initialize the CAMobileAppAnalytics sdk in `didFinishLaunchingWithOptions` method
-        ```sh
-        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-            //Initialize CA App Experience Analytics SDK
-            CAMDOReporter.initializeSDK(options: SDKOptions.SDKLogLevelVerbose) { (completed, error) in
+            ```sh
+            func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+                //Initialize CA App Experience Analytics SDK
+                CAMDOReporter.initializeSDK(options: SDKOptions.SDKLogLevelVerbose) { (completed, error) in
 
+                }
+                return true
             }
-            return true
-        }
-        ```
+            ```
     
         5. Drag & Drop the downloaded `xxx_camdo.plist` file into the Supporting files
     </details>
@@ -109,17 +109,27 @@ Register your application with AXA. For more information, see the [Manage Apps](
         
         2. Initialize the CAMobileAppAnalytics sdk in `didFinishLaunchingWithOptions:` method 
         
-        ```sh
-            - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-            {
-                [CAMDOReporter initializeSDKWithOptions:SDKLogLevelVerbose  completionHandler:nil];
-                return YES;
-            }
-        ```
+            ```sh
+                - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+                {
+                    [CAMDOReporter initializeSDKWithOptions:SDKLogLevelVerbose  completionHandler:nil];
+                    return YES;
+                }
+            ```
         3. Drag & Drop the downloaded `xxx_camdo.plist` file into the Supporting files
     
     </details>
     </blockquote>
+
+     3. Add the following permissions to your application `Info.plist`, if not already present.
+        ```sh
+        <key>NSLocationWhenInUseUsageDescription</key>
+            <string>This allows us to track and gather analytic data for improving the app experience.</string>
+        <key>NSLocationAlwaysUsageDescription</key>
+            <string>This allows us to track and gather analytic data for improving the app experience.</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+            <string>This allows us to track and gather analytic data for improving the app experience.</string>
+        ```
 
     </details>
     </blockquote>
@@ -128,44 +138,52 @@ Register your application with AXA. For more information, see the [Manage Apps](
     <details>
     <summary> Android </summary>
 
-        1. Go to the android folder and add packages.broadcom.com as a repository in the project build.gradle file
+    1. Go to the android folder and add packages.broadcom.com as a repository in the project build.gradle file
         ```bash
-            buildscript {
-                repositories {
-                    google()
-                    ..
-                    ..
-                    maven {
-                        url 'https://packages.broadcom.com/apm-agents'
-                    }
-                }
-                dependencies {
-                    .. 
-                    .. 
-                    classpath 'com.ca.dxapm:sdk-gradle-plugin:2022.6.0.0'
+        buildscript {
+            repositories {
+                google()
+                ..
+                ..
+                maven {
+                    url 'https://packages.broadcom.com/apm-agents'
                 }
             }
+            dependencies {
+                .. 
+                .. 
+                classpath 'com.ca.dxapm:sdk-gradle-plugin:2022.6.0.0'
+            }
+        }
 
-            allprojects {
-                repositories {
-                    google()
-                    ..
-                    ..
-                    maven {
-                        url 'https://packages.broadcom.com/apm-agents'
-                    }
+        allprojects {
+            repositories {
+                google()
+                ..
+                ..
+                maven {
+                    url 'https://packages.broadcom.com/apm-agents'
                 }
             }
+        }
         ```
 
-        2. Go to the android/app folder and add the following to the app's build.gradle file:
+    2. Go to the android/app folder and add the following to the app's build.gradle file:
         ```bash
         apply plugin: 'com.ca.dxapm.sdk.gradle.plugin'
         cadxapmsdk {
             plist = "path to camdo.plist"
         }
         ```
-        
+    
+    3. Update AndroidManifest.xml file. Add the following permissions, if not already present.
+        ```sh
+        <uses-permission android:name='android.permission.INTERNET' />
+        <uses-permission android:name='android.permission.ACCESS_NETWORK_STATE' />
+        <uses-permission android:name='android.permission.ACCESS_WIFI_STATE' />
+        <uses-permission android:name='android.permission.ACCESS_COARSE_LOCATION' />
+        ```
+
     </blockquote>
     </details>
 

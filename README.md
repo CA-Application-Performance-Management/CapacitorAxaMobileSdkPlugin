@@ -31,26 +31,26 @@ Register your application with AXA. For more information, see the [Manage Apps](
 
 ## Integrate SDK
 
--  Download the **camdo.plist** file.
+1.  Download the **camdo.plist** file.
 
     1. Click **MANAGE APPS** in the DX App Experience Analytics Administration Console.
     2. Select the application you want to wrap and then under **HYBRID** , click **Capacitor**.
     3. Download the **<appname>_camdo.plist** file.
 
-- Install Plugin
+2. Install Plugin
     ```bash
     npm install capacitor-axa-mobile-sdk-plugin-xcframework
     npx cap sync
     ```
     >**Note:** Goto **ios/App** folder and Run **pod update 'CAMobileAppAnalytics/xcframework'** to get the latest version of pod.
 
-- Set up your platform
+3. Set up your platform
 
     <blockquote>
     <details>
     <summary> iOS </summary>
     
-    - Integrate SDK
+    1. Integrate SDK
         1. Go to the ios/App folder and open the workspace
         2. Drag and drop the downloaded xxx_camdo.plist file into the project target.
         3. Add the following code in the App Component class to subscribe to the Ionic router change event:
@@ -73,7 +73,7 @@ Register your application with AXA. For more information, see the [Manage Apps](
         }
         ```
 
-    - Initialising the SDK in your Source code
+    2. Initialising the SDK in your Source code
 
     <blockquote>
     <details>
@@ -115,6 +115,15 @@ Register your application with AXA. For more information, see the [Manage Apps](
     </details>
     </blockquote>
 
+    3. Add the following permissions to your application `Info.plist`, if not already present.
+        ```sh
+        <key>NSLocationWhenInUseUsageDescription</key>
+            <string>This allows us to track and gather analytic data for improving the app experience.</string>
+        <key>NSLocationAlwaysUsageDescription</key>
+            <string>This allows us to track and gather analytic data for improving the app experience.</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+            <string>This allows us to track and gather analytic data for improving the app experience.</string>
+        ```
     </details>
     </blockquote>
 
@@ -122,8 +131,7 @@ Register your application with AXA. For more information, see the [Manage Apps](
     <details>
     <summary> Android </summary>
 
-        1. Go to the android folder and add packages.broadcom.com as a repository in the project build.gradle file
-
+    1. Go to the android folder and add packages.broadcom.com as a repository in the project build.gradle file
         ```bash
         buildscript {
             repositories {
@@ -152,14 +160,19 @@ Register your application with AXA. For more information, see the [Manage Apps](
             }
         }
         ```
-
-        2. Go to the android/app folder and add the following to the app's build.gradle file:
-
+    2. Go to the android/app folder and add the following to the app's build.gradle file:
         ```bash
         apply plugin: 'com.ca.dxapm.sdk.gradle.plugin'
         cadxapmsdk {
             plist = "path to camdo.plist"
         }
+        ```
+    3. Update AndroidManifest.xml file. Add the following permissions, if not already present.
+        ```sh
+        <uses-permission android:name='android.permission.INTERNET' />
+        <uses-permission android:name='android.permission.ACCESS_NETWORK_STATE' />
+        <uses-permission android:name='android.permission.ACCESS_WIFI_STATE' />
+        <uses-permission android:name='android.permission.ACCESS_COARSE_LOCATION' />
         ```
     </details>
     </blockquote>
@@ -231,8 +244,8 @@ CapacitorAxaMobileSdk.individualAPI({ argument1: value, argument2: value, ... })
 * [`logTextMetric(...)`](#logtextmetric)
 * [`logNumericMetric(...)`](#lognumericmetric)
 * [`uploadEvents()`](#uploadevents)
-* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, ...)`](#addlistenercamaa_notification_typecamaa_crash_occurred)
-* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, ...)`](#addlistenercamaa_notification_typecamaa_upload_initiated)
+* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_CRASH_OCCURRED, ...)`](#addlistenercamaa_notification_typecamaa_crash_occurred-)
+* [`addListener(CAMAA_NOTIFICATION_TYPE.CAMAA_UPLOAD_INITIATED, ...)`](#addlistenercamaa_notification_typecamaa_upload_initiated-)
 * [`logUIEvent(...)`](#loguievent)
 * [`setNSURLSessionDelegate(...)`](#setnsurlsessiondelegate)
 * [`setLocation(...)`](#setlocation)

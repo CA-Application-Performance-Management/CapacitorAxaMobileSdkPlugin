@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.source_files = 'ios/Plugin/**/*.{swift,h,m,c,cc,mm,cpp}'
   
   s.dependency 'Capacitor'
-  s.dependency 'CAMobileAppAnalytics/xcframework', '~> 25.10.1'
+  s.dependency 'CAMobileAppAnalytics/xcframework', '~> 26.1.1'
   s.script_phases = [
       {   :name => 'Precompile',
          :script => 'cd "${PODS_ROOT}"

@@ -18,12 +18,16 @@ Read about [DX App Experience Analytics](https://www.broadcom.com/info/aiops/app
 
 Check out our [documentation](https://techdocs.broadcom.com/content/broadcom/techdocs/us/en/ca-enterprise-software/it-operations-management/app-experience-analytics-saas/SaaS/reference/data-collected-by-ca-app-experience-analytics-sdk.html) for more information about the features that the App Experience Analytics SDK collects from your app.
 
-## Prerequisite(For iOS only)
+## Prerequisites
 
+**For iOS only:**  
 Run the following command to install the **Ruby Gem xcodeproj** to make the **CAMDOReporter.h** file as a public header of the AXA Capacitor plugin target in your application:
 ```bash 
 sudo gem install xcodeproj
 ```
+
+**For Android only:**  
+This plugin depends on the **sdk-core** and **sdk-gradle plugin** artifacts. Download the sdk-core/sdk-gradle plugin folder from the AXA dashboard, extract it, and merge its contents into your local Maven repository (typically `~/.m2/repository` on macOS/Linux or `%USERPROFILE%\.m2\repository` on Windows).
 
 ## Register Your Application
 
@@ -38,10 +42,14 @@ Register your application with AXA. For more information, see the [Manage Apps](
     3. Download the **<appname>_camdo.plist** file.
 
 2. Install Plugin
+    1. In the AXA dashboard, download the plugin zip folder provided for Capacitor.
+    2. Extract the zip to a location on your local machine (for example, `~/plugins/capacitor-axa-mobile-sdk-plugin-xcframework`).
+    3. From your project root, install the plugin from the extracted path:
     ```bash
-    npm install capacitor-axa-mobile-sdk-plugin-xcframework
+    npm install /path/to/extracted/plugin-folder
     npx cap sync
     ```
+    Replace `/path/to/extracted/plugin-folder` with the actual path where you extracted the zip (for example, `~/plugins/capacitor-axa-mobile-sdk-plugin-xcframework`).
     >**Note:** Goto **ios/App** folder and Run **pod update 'CAMobileAppAnalytics/xcframework'** to get the latest version of pod.
 
 3. Set up your platform
@@ -131,16 +139,14 @@ Register your application with AXA. For more information, see the [Manage Apps](
     <details>
     <summary> Android </summary>
 
-    1. Go to the android folder and add packages.broadcom.com as a repository in the project build.gradle file
+    1. Go to the android folder and add **mavenLocal()** in the project build.gradle file so that the sdk-core and sdk-gradle plugin (merged into your local Maven in the prerequisite step) are resolved.
         ```bash
         buildscript {
             repositories {
                 google()
+                mavenLocal()
                 ..
                 ..
-                maven {
-                    url 'https://packages.broadcom.com/apm-agents'
-                }
             }
             dependencies {
                 .. 
@@ -152,11 +158,9 @@ Register your application with AXA. For more information, see the [Manage Apps](
         allprojects {
             repositories {
                 google()
+                mavenLocal()
                 ..
                 ..
-                maven {
-                    url 'https://packages.broadcom.com/apm-agents'
-                }
             }
         }
         ```
@@ -180,8 +184,11 @@ Register your application with AXA. For more information, see the [Manage Apps](
 
 ## Updation
 
+To update the plugin, download the latest zip from the AXA dashboard, extract it to your local machine (you can replace the previous extraction or use a new path), then reinstall from the updated path:
+
 ```bash
-npm upgrade capacitor-axa-mobile-sdk-plugin-xcframework
+npm uninstall capacitor-axa-mobile-sdk-plugin-xcframework
+npm install /path/to/extracted/plugin-folder
 npx cap sync
 ```
 
